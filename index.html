@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lam</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: #FFFFF0;
+            color: #333333;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 28px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 240, 0.0);
+            transition: background 0.5s ease, padding 0.4s ease, backdrop-filter 0.5s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(255, 255, 240, 0.72);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 18px 48px;
+            border-bottom: 1px solid rgba(51, 51, 51, 0.06);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333333;
+            letter-spacing: -0.02em;
+            text-decoration: none;
+            user-select: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.6;
+        }
+
+        .nav {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-size: 0.8rem;
+            font-weight: 400;
+            color: #777777;
+            text-decoration: none;
+            text-transform: lowercase;
+            letter-spacing: 0.28em;
+            position: relative;
+            transition: color 0.35s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 1px;
+            background: #333333;
+            transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .nav-link:hover {
+            color: #333333;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ── HERO SECTION ── */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        /* ── NOISE / GRAIN OVERLAY ── */
+        .hero-noise-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            pointer-events: none;
+            opacity: 0.045;
+            mix-blend-mode: multiply;
+        }
+
+        .hero-lines-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            will-change: transform;
+        }
+
+        .hero-lines-layer svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            will-change: transform;
+            z-index: 1;
+        }
+
+        .hero-orb-1 {
+            width: 500px;
+            height: 500px;
+            top: 10%;
+            right: -5%;
+            background: radial-gradient(circle, #8F8F8F 0%, transparent 70%);
+            opacity: 0.07;
+        }
+
+        .hero-orb-2 {
+            width: 320px;
+            height: 320px;
+            bottom: 8%;
+            left: -3%;
+            background: radial-gradient(circle, #999999 0%, transparent 70%);
+            opacity: 0.065;
+        }
+
+        .hero-orb-3 {
+            width: 180px;
+            height: 180px;
+            top: 25%;
+            left: 15%;
+            background: radial-gradient(circle, #8F8F8F 0%, transparent 70%);
+            opacity: 0.055;
+        }
+
+        .hero-orb-4 {
+            width: 240px;
+            height: 240px;
+            bottom: 18%;
+            right: 12%;
+            background: radial-gradient(circle, #959595 0%, transparent 70%);
+            opacity: 0.05;
+        }
+
+        .hero-text-layer {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            will-change: transform;
+        }
+
+        .hero-greeting {
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 700;
+            color: #333333;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(0.85rem, 1.2vw, 1rem);
+            font-weight: 300;
+            color: #A9A9A9;
+            letter-spacing: 0.22em;
+            text-transform: lowercase;
+            margin-top: 20px;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            opacity: 0;
+            animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+        }
+
+        .scroll-indicator span {
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            text-transform: lowercase;
+            color: #B0B0B0;
+        }
+
+        .scroll-line {
+            width: 1px;
+            height: 32px;
+            background: linear-gradient(to bottom, #B0B0B0, transparent);
+            animation: scrollPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes scrollPulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scaleY(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scaleY(1.2);
+            }
+        }
+
+        /* ── ABOUT SECTION ── */
+        .about {
+            position: relative;
+            padding: 120px 48px 140px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-inner {
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 80px;
+            align-items: start;
+        }
+
+        .about-left {
+            position: relative;
+        }
+
+        .about-label {
+            font-size: 0.7rem;
+            font-weight: 400;
+            color: #A9A9A9;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .about-label.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-heading {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            color: #333333;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease 0.1s, transform 0.8s ease 0.1s;
+        }
+
+        .about-heading.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-line {
+            width: 48px;
+            height: 2px;
+            background: #333333;
+            margin-top: 28px;
+            opacity: 0;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: opacity 0.6s ease 0.3s, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s;
+        }
+
+        .about-line.visible {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+
+        .about-right {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s;
+        }
+
+        .about-right.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about-text {
+            font-size: 1.05rem;
+            font-weight: 300;
+            color: #555555;
+            line-height: 1.85;
+            letter-spacing: 0.01em;
+        }
+
+        .about-text+.about-text {
+            margin-top: 24px;
+        }
+
+        .about-detail {
+            margin-top: 40px;
+            display: flex;
+            gap: 48px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .detail-number {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #333333;
+            letter-spacing: -0.02em;
+        }
+
+        .detail-label {
+            font-size: 0.72rem;
+            font-weight: 400;
+            color: #A9A9A9;
+            letter-spacing: 0.2em;
+            text-transform: lowercase;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            padding: 48px;
+            text-align: center;
+            border-top: 1px solid rgba(51, 51, 51, 0.06);
+        }
+
+        .footer-text {
+            font-size: 0.72rem;
+            color: #B0B0B0;
+            letter-spacing: 0.18em;
+            text-transform: lowercase;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .header {
+                padding: 22px 24px;
+            }
+
+            .header.scrolled {
+                padding: 16px 24px;
+            }
+
+            .nav {
+                gap: 28px;
+            }
+
+            .nav-link {
+                font-size: 0.72rem;
+            }
+
+            .about {
+                padding: 80px 24px 100px;
+            }
+
+            .about-inner {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-detail {
+                gap: 32px;
+            }
+
+            .footer {
+                padding: 36px 24px;
+            }
+
+            .hero-orb-1 {
+                width: 300px;
+                height: 300px;
+            }
+
+            .hero-orb-2 {
+                width: 200px;
+                height: 200px;
+            }
+
+            .hero-orb-3 {
+                width: 120px;
+                height: 120px;
+            }
+
+            .hero-orb-4 {
+                width: 160px;
+                height: 160px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.25rem;
+            }
+
+            .nav {
+                gap: 20px;
+            }
+
+            .nav-link {
+                font-size: 0.68rem;
+                letter-spacing: 0.2em;
+            }
+
+            .hero-greeting {
+                font-size: 2.4rem;
+            }
+
+            .about-heading {
+                font-size: 2rem;
+            }
+
+            .about-text {
+                font-size: 0.95rem;
+                line-height: 1.75;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SVG FILTER FOR NOISE GRAIN (referenced by overlay) -->
+    <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+        <defs>
+            <filter id="noiseFilter" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"
+                    result="noise" />
+                <feColorMatrix type="saturate" values="0" in="noise" result="greyNoise" />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- HEADER -->
+    <header class="header" id="siteHeader">
+        <a href="#hero" class="logo">Lam</a>
+        <nav class="nav">
+            <a href="#hero" class="nav-link">hero</a>
+            <a href="#about" class="nav-link">about</a>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="hero">
+
+        <!-- NOISE OVERLAY -->
+        <div class="hero-noise-overlay" id="noiseOverlay">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                <rect width="100%" height="100%" filter="url(#noiseFilter)" opacity="1" />
+            </svg>
+        </div>
+
+        <!-- ORBS -->
+        <div class="hero-orb hero-orb-1" id="orb1"></div>
+        <div class="hero-orb hero-orb-2" id="orb2"></div>
+        <div class="hero-orb hero-orb-3" id="orb3"></div>
+        <div class="hero-orb hero-orb-4" id="orb4"></div>
+
+        <!-- ABSTRACT LINE ART LAYER -->
+        <div class="hero-lines-layer" id="heroLines">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
+                fill="none">
+
+                <!-- Large elliptical arcs — enhanced contrast -->
+                <ellipse cx="720" cy="450" rx="380" ry="260" stroke="#9A9A9A" stroke-width="0.8" opacity="0.55" />
+                <ellipse cx="720" cy="450" rx="320" ry="200" stroke="#A0A0A0" stroke-width="0.7" opacity="0.42" />
+                <ellipse cx="720" cy="450" rx="520" ry="340" stroke="#A9A9A9" stroke-width="0.6" opacity="0.33" />
+                <ellipse cx="720" cy="450" rx="440" ry="290" stroke="#A5A5A5" stroke-width="0.5" opacity="0.22"
+                    stroke-dasharray="8 12" />
+
+                <!-- Primary diagonal lines -->
+                <line x1="100" y1="120" x2="600" y2="750" stroke="#8F8F8F" stroke-width="0.8" opacity="0.48" />
+                <line x1="840" y1="80" x2="1340" y2="820" stroke="#8F8F8F" stroke-width="0.8" opacity="0.42" />
+                <line x1="300" y1="50" x2="1200" y2="850" stroke="#9A9A9A" stroke-width="0.6" opacity="0.32" />
+                <line x1="1100" y1="100" x2="350" y2="800" stroke="#959595" stroke-width="0.7" opacity="0.36" />
+
+                <!-- Secondary diagonal lines -->
+                <line x1="50" y1="400" x2="700" y2="50" stroke="#A0A0A0" stroke-width="0.5" opacity="0.24" />
+                <line x1="740" y1="850" x2="1400" y2="350" stroke="#A0A0A0" stroke-width="0.5" opacity="0.24" />
+
+                <!-- Horizontal guiding lines -->
+                <line x1="0" y1="300" x2="1440" y2="300" stroke="#A9A9A9" stroke-width="0.5" opacity="0.22" />
+                <line x1="0" y1="600" x2="1440" y2="600" stroke="#A9A9A9" stroke-width="0.5" opacity="0.22" />
+                <line x1="0" y1="450" x2="1440" y2="450" stroke="#A9A9A9" stroke-width="0.35" opacity="0.16" />
+
+                <!-- Vertical markers -->
+                <line x1="360" y1="0" x2="360" y2="900" stroke="#A9A9A9" stroke-width="0.4" opacity="0.18" />
+                <line x1="1080" y1="0" x2="1080" y2="900" stroke="#A9A9A9" stroke-width="0.4" opacity="0.18" />
+                <line x1="720" y1="0" x2="720" y2="900" stroke="#A9A9A9" stroke-width="0.3" opacity="0.13" />
+
+                <!-- Circular intersection accents -->
+                <circle cx="360" cy="300" r="5" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.5" />
+                <circle cx="1080" cy="600" r="5" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.5" />
+                <circle cx="720" cy="450" r="8" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.45" />
+                <circle cx="720" cy="450" r="3" fill="#999999" opacity="0.38" />
+                <circle cx="360" cy="600" r="4" stroke="#959595" stroke-width="0.6" fill="none" opacity="0.35" />
+                <circle cx="1080" cy="300" r="4" stroke="#959595" stroke-width="0.6" fill="none" opacity="0.35" />
+
+                <!-- Sweeping curve paths -->
+                <path d="M 200 200 Q 500 80 800 250" stroke="#959595" stroke-width="0.7" fill="none" opacity="0.34" />
+                <path d="M 640 650 Q 900 810 1240 680" stroke="#959595" stroke-width="0.7" fill="none" opacity="0.34" />
+                <path d="M 100 500 Q 400 340 720 420" stroke="#9A9A9A" stroke-width="0.6" fill="none" opacity="0.28" />
+                <path d="M 720 480 Q 1040 560 1340 400" stroke="#9A9A9A" stroke-width="0.6" fill="none"
+                    opacity="0.28" />
+                <path d="M 50 700 Q 360 580 720 650" stroke="#A0A0A0" stroke-width="0.5" fill="none" opacity="0.22" />
+                <path d="M 720 250 Q 1060 180 1400 300" stroke="#A0A0A0" stroke-width="0.5" fill="none"
+                    opacity="0.22" />
+
+                <!-- Angular geometric fragments -->
+                <polyline points="480,180 580,280 520,380" stroke="#8F8F8F" stroke-width="0.7" fill="none"
+                    opacity="0.32" />
+                <polyline points="920,520 1020,620 960,720" stroke="#8F8F8F" stroke-width="0.7" fill="none"
+                    opacity="0.32" />
+                <polyline points="250,400 310,320 400,360" stroke="#959595" stroke-width="0.6" fill="none"
+                    opacity="0.25" />
+                <polyline points="1040,380 1120,440 1080,540" stroke="#959595" stroke-width="0.6" fill="none"
+                    opacity="0.25" />
+
+                <!-- Sparse dot grid -->
+                <circle cx="180" cy="200" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                <circle cx="400" cy="150" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                <circle cx="1040" cy="200" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                <circle cx="1260" cy="350" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                <circle cx="180" cy="700" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                <circle cx="1260" cy="650" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                <circle cx="540" cy="700" r="1.5" fill="#999999" opacity="0.25" />
+                <circle cx="900" cy="180" r="1.5" fill="#999999" opacity="0.25" />
+                <circle cx="620" cy="100" r="1.5" fill="#999999" opacity="0.25" />
+                <circle cx="820" cy="800" r="1.5" fill="#999999" opacity="0.25" />
+
+                <!-- Small cross-marks at key intersections -->
+                <line x1="356" y1="300" x2="364" y2="300" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
+                <line x1="360" y1="296" x2="360" y2="304" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
+                <line x1="1076" y1="600" x2="1084" y2="600" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
+                <line x1="1080" y1="596" x2="1080" y2="604" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
+            </svg>
+        </div>
+
+        <!-- TEXT LAYER (highest z-plane) -->
+        <div class="hero-text-layer" id="heroText">
+            <h1 class="hero-greeting">hello there!</h1>
+            <p class="hero-subtitle">welcome to a quieter corner</p>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>scroll</span>
+            <div class="scroll-line"></div>
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section class="about" id="about">
+        <div class="about-inner">
+            <div class="about-left">
+                <p class="about-label" id="aboutLabel">01 — introduction</p>
+                <h2 class="about-heading" id="aboutHeading">About</h2>
+                <div class="about-line" id="aboutLine"></div>
+            </div>
+            <div class="about-right" id="aboutRight">
+                <p class="about-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                    aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore.
+                </p>
+                <p class="about-text">
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                    est laborum. Nulla facilisi morbi tempus iaculis urna id volutpat. Vitae semper quis lectus nulla at
+                    volutpat diam ut venenatis. Amet consectetur adipiscing elit pellentesque habitant morbi tristique
+                    senectus et netus.
+                </p>
+                <div class="about-detail">
+                    <div class="detail-item">
+                        <span class="detail-number">12+</span>
+                        <span class="detail-label">years experience</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-number">80</span>
+                        <span class="detail-label">projects completed</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-number">40</span>
+                        <span class="detail-label">happy clients</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p class="footer-text">&copy; 2025 lam — crafted with care</p>
+    </footer>
+
+    <script>
+        (function () {
+            /* ── HEADER SCROLL STATE ── */
+            var header = document.getElementById('siteHeader');
+
+            function updateHeader() {
+                var scrollY = window.scrollY || window.pageYOffset;
+                if (scrollY > 40) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            }
+
+            /* ── PARALLAX ENGINE ── */
+            var heroLines = document.getElementById('heroLines');
+            var heroText = document.getElementById('heroText');
+            var orb1 = document.getElementById('orb1');
+            var orb2 = document.getElementById('orb2');
+            var orb3 = document.getElementById('orb3');
+            var orb4 = document.getElementById('orb4');
+            var noiseOverlay = document.getElementById('noiseOverlay');
+
+            function updateParallax() {
+                var scrollY = window.scrollY || window.pageYOffset;
+                var heroHeight = window.innerHeight;
+
+                if (scrollY < heroHeight * 1.2) {
+                    var progress = scrollY / heroHeight;
+
+                    /* Background lines move slower — creates depth */
+                    heroLines.style.transform = 'translate3d(0,' + (scrollY * 0.25) + 'px, 0) scale(' + (1 + progress * 0.03) + ')';
+
+                    /* Noise overlay drifts at its own slow rate */
+                    noiseOverlay.style.transform = 'translate3d(0,' + (scrollY * 0.1) + 'px, 0)';
+
+                    /* Text layer moves faster — floats above */
+                    heroText.style.transform = 'translate3d(0,' + (scrollY * 0.5) + 'px, 0)';
+                    heroText.style.opacity = Math.max(0, 1 - progress * 1.2);
+
+                    /* Orbs drift at different rates for layered feel */
+                    orb1.style.transform = 'translate3d(' + (scrollY * -0.08) + 'px,' + (scrollY * 0.15) + 'px, 0)';
+                    orb2.style.transform = 'translate3d(' + (scrollY * 0.06) + 'px,' + (scrollY * 0.1) + 'px, 0)';
+                    orb3.style.transform = 'translate3d(' + (scrollY * -0.12) + 'px,' + (scrollY * 0.2) + 'px, 0)';
+                    orb4.style.transform = 'translate3d(' + (scrollY * 0.1) + 'px,' + (scrollY * 0.13) + 'px, 0)';
+                }
+            }
+
+            /* ── INTERSECTION OBSERVER FOR ABOUT ── */
+            var aboutElements = [
+                document.getElementById('aboutLabel'),
+                document.getElementById('aboutHeading'),
+                document.getElementById('aboutLine'),
+                document.getElementById('aboutRight')
+            ];
+
+            var observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.15,
+                rootMargin: '0px 0px -60px 0px'
+            });
+
+            aboutElements.forEach(function (element) {
+                if (element) observer.observe(element);
+            });
+
+            /* ── SMOOTH SCROLL FOR NAV LINKS ── */
+            document.querySelectorAll('.nav-link, .logo').forEach(function (link) {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var targetId = this.getAttribute('href').substring(1);
+                    var targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        var offsetTop = targetElement.offsetTop;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            /* ── RAF SCROLL HANDLER ── */
+            var ticking = false;
+
+            function onScroll() {
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        updateHeader();
+                        updateParallax();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }
+
+            window.addEventListener('scroll', onScroll, { passive: true });
+
+            /* Initial calls */
+            updateHeader();
+            updateParallax();
+        })();
+    </script>
+
+</body>
+
+</html>
