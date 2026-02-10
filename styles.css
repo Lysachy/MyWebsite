@@ -487,15 +487,16 @@ body {
     /* Match body bg */
 }
 
-#showcase h1 {
-    margin-top: 40px;
-    margin-bottom: 40px;
+#showcase .showcase-header {
     text-align: center;
-    font-family: 'Raleway', sans-serif;
-    color: #222;
-    font-weight: 600;
-    font-size: 40px;
-    animation: up 1.5s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+#showcase .about-line {
+    transform-origin: center;
 }
 
 .showcase-container {

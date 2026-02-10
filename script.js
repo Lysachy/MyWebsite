@@ -50,7 +50,10 @@
         document.getElementById('aboutLabel'),
         document.getElementById('aboutHeading'),
         document.getElementById('aboutLine'),
-        document.getElementById('aboutRight')
+        document.getElementById('aboutRight'),
+        document.getElementById('showcaseLabel'),
+        document.getElementById('showcaseHeading'),
+        document.getElementById('showcaseLine')
     ];
 
     var observer = new IntersectionObserver(function (entries) {
