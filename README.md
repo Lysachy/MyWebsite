@@ -4,7 +4,7 @@ Selamat datang di repositori proyek saya! Website ini dibuat untuk menampilkan p
 
 ### 🌐 Kunjungi Website
 Kamu bisa mengakses langsung melalui tautan di bawah ini:
-**[Klik di sini untuk mengunjungi MyWebsite](https://Lysachy.github.io/MyWebsite/)**
+**[Click here](https://Lysachy.github.io/MyWebsite/)**
 
 ---
 *Dibuat dengan semangat oleh Lam.*

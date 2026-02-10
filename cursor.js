@@ -1,11 +1,12 @@
-class ArrowPointer {
+class MotionBlur {
     constructor() {
         this.root = document.body
         this.cursor = document.querySelector(".curzr")
+        this.filter = document.querySelector(".curzr-motion-blur")
+
         this.position = {
             distanceX: 0,
             distanceY: 0,
-            distance: 0,
             pointerX: 0,
             pointerY: 0,
         },
@@ -15,89 +16,86 @@ class ArrowPointer {
         this.previousAngle = 0
         this.angleDisplace = 0
         this.degrees = 57.296
-        this.cursorSize = 20
+        this.cursorSize = 25
+        this.moving = false
+
         this.cursorStyle = {
             boxSizing: 'border-box',
             position: 'fixed',
-            top: '0px',
-            left: `${-this.cursorSize / 2}px`,
+            top: `${this.cursorSize / -2}px`,
+            left: `${this.cursorSize / -2}px`,
             zIndex: '2147483647',
             width: `${this.cursorSize}px`,
             height: `${this.cursorSize}px`,
-            transition: '250ms, transform 100ms',
+            borderRadius: '50%',
+            overflow: 'visible',
+            transition: '200ms, transform 10ms',
             userSelect: 'none',
             pointerEvents: 'none'
         }
+
         this.init(this.cursor, this.cursorStyle)
     }
+
     init(el, style) {
         Object.assign(el.style, style)
         this.cursor.removeAttribute("hidden")
+
     }
+
     move(event) {
         this.previousPointerX = this.position.pointerX
         this.previousPointerY = this.position.pointerY
         this.position.pointerX = event.pageX + this.root.getBoundingClientRect().x
         this.position.pointerY = event.pageY + this.root.getBoundingClientRect().y
-        this.position.distanceX = this.previousPointerX - this.position.pointerX
-        this.position.distanceY = this.previousPointerY - this.position.pointerY
-        this.distance = Math.sqrt(this.position.distanceY ** 2 + this.position.distanceX ** 2)
+        this.position.distanceX = Math.min(Math.max(this.previousPointerX - this.position.pointerX, -20), 20)
+        this.position.distanceY = Math.min(Math.max(this.previousPointerY - this.position.pointerY, -20), 20)
+
         this.cursor.style.transform = `translate3d(${this.position.pointerX}px, ${this.position.pointerY}px, 0)`
-        if (this.distance > 1) {
-            this.rotate(this.position)
-        } else {
-            this.cursor.style.transform += ` rotate(${this.angleDisplace}deg)`
-        }
+        this.rotate(this.position)
+        this.moving ? this.stop() : this.moving = true
     }
+
     rotate(position) {
         let unsortedAngle = Math.atan(Math.abs(position.distanceY) / Math.abs(position.distanceX)) * this.degrees
-        let modAngle
-        const style = this.cursor.style
-        this.previousAngle = this.angle
-        if (position.distanceX <= 0 && position.distanceY >= 0) {
-            this.angle = 90 - unsortedAngle + 0
-        } else if (position.distanceX < 0 && position.distanceY < 0) {
-            this.angle = unsortedAngle + 90
-        } else if (position.distanceX >= 0 && position.distanceY <= 0) {
-            this.angle = 90 - unsortedAngle + 180
-        } else if (position.distanceX > 0 && position.distanceY > 0) {
-            this.angle = unsortedAngle + 270
-        }
-        if (isNaN(this.angle)) {
+
+        if (isNaN(unsortedAngle)) {
             this.angle = this.previousAngle
         } else {
-            if (this.angle - this.previousAngle <= -270) {
-                this.angleDisplace += 360 + this.angle - this.previousAngle
-            } else if (this.angle - this.previousAngle >= 270) {
-                this.angleDisplace += this.angle - this.previousAngle - 360
+            if (unsortedAngle <= 45) {
+                if (position.distanceX * position.distanceY >= 0) {
+                    this.angle = +unsortedAngle
+                } else {
+                    this.angle = -unsortedAngle
+                }
+                this.filter.setAttribute('stdDeviation', `${Math.abs(this.position.distanceX / 2)}, 0`)
             } else {
-                this.angleDisplace += this.angle - this.previousAngle
+                if (position.distanceX * position.distanceY <= 0) {
+                    this.angle = 180 - unsortedAngle
+                } else {
+                    this.angle = unsortedAngle
+                }
+                this.filter.setAttribute('stdDeviation', `${Math.abs(this.position.distanceY / 2)}, 0`)
             }
         }
-        style.transform += ` rotate(${this.angleDisplace}deg)`
-        setTimeout(() => {
-            modAngle = this.angleDisplace >= 0 ? this.angleDisplace % 360 : 360 + this.angleDisplace % 360
-            if (modAngle >= 45 && modAngle < 135) {
-                style.left = `${-this.cursorSize}px`
-                style.top = `${-this.cursorSize / 2}px`
-            } else if (modAngle >= 135 && modAngle < 225) {
-                style.left = `${-this.cursorSize / 2}px`
-                style.top = `${-this.cursorSize}px`
-            } else if (modAngle >= 225 && modAngle < 315) {
-                style.left = '0px'
-                style.top = `${-this.cursorSize / 2}px`
-            } else {
-                style.left = `${-this.cursorSize / 2}px`
-                style.top = '0px'
-            }
-        }, 0)
+        this.cursor.style.transform += ` rotate(${this.angle}deg)`
+        this.previousAngle = this.angle
     }
+
+    stop() {
+        setTimeout(() => {
+            this.filter.setAttribute('stdDeviation', '0, 0')
+            this.moving = false
+        }, 50)
+    }
+
     remove() {
         this.cursor.remove()
     }
 }
+
 (() => {
-    const cursor = new ArrowPointer()
+    const cursor = new MotionBlur()
     if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         document.onmousemove = function (event) {
             cursor.move(event)
