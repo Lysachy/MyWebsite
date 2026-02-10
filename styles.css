@@ -1,3 +1,6 @@
+@import url(https://use.fontawesome.com/releases/v5.0.10/css/all.css);
+@import url('https://fonts.googleapis.com/css?family=Raleway:600');
+
 *,
 *::before,
 *::after {
@@ -474,5 +477,168 @@ body {
     .about-text {
         font-size: 0.95rem;
         line-height: 1.75;
+    }
+}
+
+/* ── SHOWCASE SECTION ── */
+#showcase {
+    padding: 60px 48px 100px;
+    background-color: #FFFFF0;
+    /* Match body bg */
+}
+
+#showcase h1 {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    text-align: center;
+    font-family: 'Raleway', sans-serif;
+    color: #222;
+    font-weight: 600;
+    font-size: 40px;
+    animation: up 1.5s;
+}
+
+.showcase-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    /* Added for responsiveness */
+    animation: up 1.5s;
+}
+
+.showcase .photoLink {
+    position: relative;
+    float: left;
+    overflow: hidden;
+    margin: 10px 1%;
+    min-width: 220px;
+    max-width: 310px;
+    width: 100%;
+    background: #000000;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+    border-radius: .5rem;
+    text-decoration: none;
+    /* Reset link style */
+}
+
+.showcase .item * {
+    box-sizing: border-box;
+    transition: all .2s ease-in-out;
+    height: 100px;
+    width: 100px;
+}
+
+.showcase .item {
+    vertical-align: top;
+    height: 210px;
+    width: 100%;
+}
+
+.showcase .item i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    font-size: 34px;
+    color: #000000;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    background: #ffffff;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform .5s 0 ease;
+}
+
+.showcase .item a {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.showcase .item.blue {
+    background-color: #34495e;
+}
+
+.showcase .item.blue i {
+    color: #34495e;
+}
+
+.showcase .item.red {
+    background-color: #ff0000;
+}
+
+.showcase .item.red i {
+    color: #e74c3c;
+}
+
+.showcase .item:hover i {
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform .3s .1s cubic-bezier(.37, 1.05, .5, 1.21);
+}
+
+#item1 {
+    background: url("https://images.unsplash.com/photo-1496301851374-1cd990ea7525?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=f10597a09a8060b2579095786c801bb2&auto=format&fit=crop&w=975&q=80") center center no-repeat;
+    background-size: cover;
+}
+
+#item2 {
+    background: url("https://images.unsplash.com/photo-1485846234645-a62644f84728?ixlib=rb-0.3.5&s=41def613949073b2c3155bcde93a69d1&auto=format&fit=crop&w=1640&q=80") center center no-repeat;
+    background-size: cover;
+}
+
+#item3 {
+    background: url("https://images.unsplash.com/photo-1493020258366-be3ead1b3027?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2afb6e9b1b3272030768e20b213e0470&auto=format&fit=crop&w=1100&q=80") center center no-repeat;
+    background-size: cover;
+}
+
+.showcase .color:hover {
+    opacity: 1 !important;
+}
+
+.showcase .color.green {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #16a08577;
+}
+
+.showcase .color.green i {
+    color: #16a085;
+}
+
+.showcase .color.blue {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #0c67f977;
+}
+
+.showcase .color.blue i {
+    color: #0c67f9;
+}
+
+.showcase .color.red {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    background-color: #f90c0c77;
+}
+
+.showcase .color.red i {
+    color: #f90c0c;
+}
+
+@keyframes up {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
