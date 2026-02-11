@@ -77,7 +77,7 @@
     });
 
     /* ── SMOOTH SCROLL FOR NAV LINKS ── */
-    document.querySelectorAll('.nav-link, .logo').forEach(function (link) {
+    document.querySelectorAll('.nav-link').forEach(function (link) {
         link.addEventListener('click', function (event) {
             event.preventDefault();
             var targetId = this.getAttribute('href').substring(1);
@@ -92,6 +92,35 @@
         });
     });
 
+/* ── DARK MODE TOGGLE ON LOGO DOUBLE CLICK ── */
+var logo = document.querySelector('.logo');
+if (logo) {
+    // Apply saved theme on load
+    var savedTheme = window.localStorage ? localStorage.getItem('theme') : null;
+    if (savedTheme === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+
+    // Menggunakan 'dblclick' agar perubahan hanya terjadi saat diklik 2 kali
+    logo.addEventListener('dblclick', function (event) {
+        event.preventDefault();
+        var body = document.body;
+        var isDark = body.classList.toggle('dark-mode');
+
+        if (window.localStorage) {
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        // Also scroll back to main section for convenience
+        var mainSection = document.getElementById('main');
+        if (mainSection) {
+            window.scrollTo({
+                top: mainSection.offsetTop,
+                behavior: 'smooth'
+            });
+        }
+    });
+}
     /* ── RAF SCROLL HANDLER ── */
     var ticking = false;
 

@@ -25,6 +25,67 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+/* ── DARK MODE THEME ── */
+body.dark-mode {
+    background-color: #050509;
+    color: #F5F5F5;
+}
+
+body.dark-mode .header {
+    background: rgba(5, 5, 9, 0.85);
+}
+
+body.dark-mode .header.scrolled {
+    background: rgba(5, 5, 9, 0.92);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .logo {
+    color: #F5F5F5;
+}
+
+body.dark-mode .nav-link {
+    color: #B0B0B0;
+}
+
+body.dark-mode .nav-link:hover {
+    color: #FFFFFF;
+}
+
+body.dark-mode .nav-link::after {
+    background: #FFFFFF;
+}
+
+body.dark-mode .about,
+body.dark-mode #showcase,
+body.dark-mode .loop-images {
+    background-color: #050509;
+}
+
+body.dark-mode .about-heading,
+body.dark-mode .detail-number {
+    color: #F5F5F5;
+}
+
+body.dark-mode .about-text {
+    color: #DDDDDD;
+}
+
+body.dark-mode .footer {
+    border-top-color: rgba(245, 245, 245, 0.12);
+}
+
+/* Hero title adjustments in dark mode */
+body.dark-mode .hero-greeting {
+    color: #F5F5F5;
+}
+
+body.dark-mode .hero-greeting-overlay {
+    color: #F5F5F5;
+    -webkit-text-stroke: 11px #050509;
+}
+
+
 /* ── HEADER ── */
 .header {
     position: fixed;
