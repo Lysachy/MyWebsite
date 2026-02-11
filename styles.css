@@ -216,7 +216,7 @@ body {
     -webkit-text-stroke: 11px #FFFFF0;
     paint-order: stroke fill;
     position: absolute;
-    top: 60%;
+    top: 82%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(-6deg);
     z-index: 2;
