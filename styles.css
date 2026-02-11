@@ -526,7 +526,8 @@ body {
     /* Match body bg */
 }
 
-#showcase .showcase-header {
+#showcase .showcase-header,
+#gallery .showcase-header {
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -534,7 +535,8 @@ body {
     margin-bottom: 60px;
 }
 
-#showcase .about-line {
+#showcase .about-line,
+#gallery .about-line {
     transform-origin: center;
 }
 

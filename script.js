@@ -53,7 +53,10 @@
         document.getElementById('aboutRight'),
         document.getElementById('showcaseLabel'),
         document.getElementById('showcaseHeading'),
-        document.getElementById('showcaseLine')
+        document.getElementById('showcaseLine'),
+        document.getElementById('galleryLabel'),
+        document.getElementById('galleryHeading'),
+        document.getElementById('galleryLine')
     ];
 
     var observer = new IntersectionObserver(function (entries) {
