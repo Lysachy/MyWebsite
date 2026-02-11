@@ -504,6 +504,11 @@ body {
         font-size: 2.4rem;
     }
 
+    .hero-greeting-overlay {
+        font-size: 1.5rem;
+        -webkit-text-stroke: 3px #FFFFF0;
+    }
+
     .about-heading {
         font-size: 2rem;
     }
