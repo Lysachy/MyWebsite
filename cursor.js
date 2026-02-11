@@ -17,7 +17,8 @@ class MotionBlur {
         this.angleDisplace = 0
         this.degrees = 57.296
         this.cursorSize = 25
-        this.moving = false
+        this.ticking = false
+        this.stopTimeout = null
 
         this.cursorStyle = {
             boxSizing: 'border-box',
@@ -46,14 +47,26 @@ class MotionBlur {
     move(event) {
         this.previousPointerX = this.position.pointerX
         this.previousPointerY = this.position.pointerY
-        this.position.pointerX = event.pageX + this.root.getBoundingClientRect().x
-        this.position.pointerY = event.pageY + this.root.getBoundingClientRect().y
+        // Gunakan koordinat viewport (clientX/Y) agar kursor tetap sinkron
+        // dengan posisi mouse di layar, tidak bergeser saat scroll.
+        this.position.pointerX = event.clientX
+        this.position.pointerY = event.clientY
         this.position.distanceX = Math.min(Math.max(this.previousPointerX - this.position.pointerX, -20), 20)
         this.position.distanceY = Math.min(Math.max(this.previousPointerY - this.position.pointerY, -20), 20)
 
-        this.cursor.style.transform = `translate3d(${this.position.pointerX}px, ${this.position.pointerY}px, 0)`
-        this.rotate(this.position)
-        this.moving ? this.stop() : this.moving = true
+        // Batasi update ke 1x per frame dengan requestAnimationFrame supaya gerakan lebih halus
+        if (!this.ticking) {
+            this.ticking = true
+            requestAnimationFrame(() => {
+                this.rotate(this.position)
+                this.cursor.style.transform =
+                    `translate3d(${this.position.pointerX}px, ${this.position.pointerY}px, 0) rotate(${this.angle}deg)`
+                this.ticking = false
+            })
+        }
+
+        // Atur blur supaya pelan-pelan hilang setelah gerakan berhenti (debounce)
+        this.stop()
     }
 
     rotate(position) {
@@ -78,14 +91,16 @@ class MotionBlur {
                 this.filter.setAttribute('stdDeviation', `${Math.abs(this.position.distanceY / 2)}, 0`)
             }
         }
-        this.cursor.style.transform += ` rotate(${this.angle}deg)`
         this.previousAngle = this.angle
     }
 
     stop() {
-        setTimeout(() => {
+        if (this.stopTimeout) {
+            clearTimeout(this.stopTimeout)
+        }
+        this.stopTimeout = setTimeout(() => {
             this.filter.setAttribute('stdDeviation', '0, 0')
-            this.moving = false
+            this.stopTimeout = null
         }, 50)
     }
 

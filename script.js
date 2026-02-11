@@ -60,6 +60,8 @@
         entries.forEach(function (entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                // Once visible, we don't need to observe it again
+                observer.unobserve(entry.target);
             }
         });
     }, {
