@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <div id="preloader">
+        <div id="terminal"></div>
+    </div>
     <svg class="curzr" hidden>
         <filter id="motionblur" x="-100%" y="-100%" width="400%" height="400%">
             <feGaussianBlur class="curzr-motion-blur" stdDeviation="0, 0" />
@@ -29,7 +32,14 @@
 
     <!-- HEADER -->
     <header class="header" id="siteHeader">
-        <a href="#main" class="logo">Lam.</a>
+        <a href="#main" class="logo">
+            <span class="flip-text">
+                <span data-char="L" style="--i: 1">L</span>
+                <span data-char="a" style="--i: 2">a</span>
+                <span data-char="m" style="--i: 3">m</span>
+                <span data-char="." style="--i: 4">.</span>
+            </span>
+        </a>
         <nav class="nav">
             <a href="#about" class="nav-link">about</a>
             <a href="#showcase" class="nav-link">works</a>
@@ -237,52 +247,40 @@
         </div>
         <div class="carousel-track">
             <div class="carousel-item" style="--i: 1;">
-                <img src="https://i.pinimg.com/1200x/9c/e8/67/9ce867ace02765fd934e72f250655b80.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/1200x/9c/e8/67/9ce867ace02765fd934e72f250655b80.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 2;">
-                <img src="https://i.pinimg.com/736x/d0/65/81/d065818cebd73b5c96f805f0337e3930.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/d0/65/81/d065818cebd73b5c96f805f0337e3930.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 3;">
-                <img src="https://i.pinimg.com/1200x/9b/05/0e/9b050e1c1f4dfa1865a9e255a3561714.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/1200x/9b/05/0e/9b050e1c1f4dfa1865a9e255a3561714.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 4;">
-                <img src="https://i.pinimg.com/736x/da/89/36/da893639624347b0f17c4f2263683957.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/da/89/36/da893639624347b0f17c4f2263683957.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 5;">
-                <img src="https://i.pinimg.com/736x/cf/e8/25/cfe825752e60f9e80d273ad4c5ec9b5c.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/cf/e8/25/cfe825752e60f9e80d273ad4c5ec9b5c.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 6;">
-                <img src="https://i.pinimg.com/736x/49/d2/f9/49d2f998c1233dbe0f1de2309713d001.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/49/d2/f9/49d2f998c1233dbe0f1de2309713d001.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 7;">
-                <img src="https://i.pinimg.com/736x/eb/6b/7b/eb6b7b913b64028f5baa595f22b50f41.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/eb/6b/7b/eb6b7b913b64028f5baa595f22b50f41.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 8;">
-                <img src="https://i.pinimg.com/736x/08/6d/20/086d20ac2420cf9a2df5d4131321e469.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/08/6d/20/086d20ac2420cf9a2df5d4131321e469.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 9;">
-                <img src="https://i.pinimg.com/736x/33/13/8a/33138ae8dd1673758f1e03ed812ca08e.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/33/13/8a/33138ae8dd1673758f1e03ed812ca08e.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 10;">
-                <img src="https://i.pinimg.com/1200x/1a/e1/52/1ae1525bd640a4ad4dd3bc19bfdcc5d9.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/1200x/1a/e1/52/1ae1525bd640a4ad4dd3bc19bfdcc5d9.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 11;">
-                <img src="https://i.pinimg.com/736x/dd/67/c2/dd67c2a835c52e222617606af0a0aace.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/dd/67/c2/dd67c2a835c52e222617606af0a0aace.jpg" alt="image">
             </div>
             <div class="carousel-item" style="--i: 12;">
-                <img src="https://i.pinimg.com/736x/f5/75/9f/f5759f5e8f05c21ab9847becead1796f.jpg"
-                    alt="image">
+                <img src="https://i.pinimg.com/736x/f5/75/9f/f5759f5e8f05c21ab9847becead1796f.jpg" alt="image">
             </div>
         </div>
     </section>
@@ -305,6 +303,107 @@
     <script src="script.js"></script>
 
     <script src="cursor.js"></script>
+
+    <script>
+        (function () {
+            const terminal = document.getElementById('terminal');
+            const preloader = document.getElementById('preloader');
+            const body = document.body;
+
+            // Kunci scroll saat preloading
+            body.style.overflow = 'hidden';
+
+            // Data Generator
+            const verbs = ["Loading", "Injecting", "Parsing", "Compiling", "Hashing", "Bundling", "Optimizing", "Verifying", "Fetching"];
+            const nouns = ["module", "chunk", "asset", "script", "style", "node", "token", "byte", "frame"];
+            const exts = [".js", ".css", ".json", ".png", ".woff2", ".html", ".map"];
+
+            function getRandomLog() {
+                const verb = verbs[Math.floor(Math.random() * verbs.length)];
+                const noun = nouns[Math.floor(Math.random() * nouns.length)];
+                const ext = exts[Math.floor(Math.random() * exts.length)];
+                const id = Math.floor(Math.random() * 9999);
+                const time = (Math.random() * 0.05).toFixed(3) + "s";
+                return { msg: `${verb} ${noun}_${id}${ext}`, time: time };
+            }
+
+            // 1. Efek Hujan Data
+            const runDataRain = async () => {
+                // Generate 60 baris (dikurangi sedikit agar tidak terlalu lama loadingnya)
+                for (let i = 0; i < 60; i++) {
+                    const data = getRandomLog();
+                    const line = document.createElement('div');
+                    line.className = 'log-line';
+
+                    const isInfo = Math.random() > 0.8;
+                    const tagClass = isInfo ? "info" : "success";
+                    const tagName = isInfo ? "info" : "ok";
+
+                    line.innerHTML = `
+                        <span class="status-tag ${tagClass}">${tagName}</span>
+                        <span class="log-message">${data.msg}</span>
+                        <span class="log-time">${data.time}</span>
+                    `;
+                    terminal.appendChild(line);
+                    preloader.scrollTop = preloader.scrollHeight;
+
+                    // Kecepatan random sangat cepat
+                    await new Promise(r => setTimeout(r, Math.random() * 15 + 5));
+                }
+            };
+
+            // 2. Sekuens Akhir
+            const runFinalSequence = async () => {
+                const separator = document.createElement('div');
+                separator.style.margin = "20px 0 10px 0";
+                separator.style.borderBottom = "1px dashed #ccc";
+                terminal.appendChild(separator);
+
+                const line = document.createElement('div');
+                line.className = 'log-line';
+                line.innerHTML = `
+                    <span id="gen-tag" class="status-tag process">wait</span>
+                    <span id="gen-msg" class="log-message" style="font-weight:bold; color:#333;">Initializing System</span>
+                `;
+                terminal.appendChild(line);
+                preloader.scrollTop = preloader.scrollHeight;
+
+                const msgElement = document.getElementById('gen-msg');
+                let dots = 0;
+
+                // Animasi loading titik-titik (sekitar 1.5 detik)
+                for (let i = 0; i < 5; i++) {
+                    dots = (dots + 1) % 4;
+                    msgElement.innerText = "Initializing System" + ".".repeat(dots);
+                    await new Promise(r => setTimeout(r, 300));
+                }
+
+                // Selesai
+                document.getElementById('gen-tag').className = "status-tag success";
+                document.getElementById('gen-tag').innerText = "DONE";
+                msgElement.innerText = "System Ready.";
+            };
+
+            // Jalankan
+            const startLoad = async () => {
+                await runDataRain();
+                await runFinalSequence();
+
+                // Slide Up & Fade Out
+                setTimeout(() => {
+                    preloader.classList.add('slide-up');
+
+                    // Kembalikan scroll body
+                    body.style.overflow = '';
+
+                    // Hapus elemen dari DOM agar tidak berat
+                    setTimeout(() => preloader.remove(), 800);
+                }, 500);
+            };
+
+            startLoad();
+        })();
+    </script>
 </body>
 
 </html>

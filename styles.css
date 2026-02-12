@@ -1116,3 +1116,192 @@ body.dark-mode .hero-clock {
         font-size: 1rem;
     }
 }
+
+/* ─── PRELOADER STYLES ─── */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Menggunakan warna Ivory yang sama dengan body website kamu */
+    background-color: #FFFFF0;
+    color: #333333;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    font-size: 13px;
+    line-height: 1.4;
+    padding: 30px;
+    box-sizing: border-box;
+    z-index: 9999;
+    /* Pastikan di atas Header (z-index 1000) */
+    overflow: hidden;
+
+    /* Transisi Slide Up + Fade Out */
+    transition: transform 0.8s cubic-bezier(0.77, 0, 0.175, 1), opacity 0.8s ease;
+    will-change: transform, opacity;
+}
+
+#preloader.slide-up {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+/* Garis Log Terminal */
+.log-line {
+    display: flex;
+    margin-bottom: 2px;
+    animation: fadeInLine 0.1s ease-in;
+}
+
+.status-tag {
+    font-weight: bold;
+    margin-right: 10px;
+    flex-shrink: 0;
+    min-width: 50px;
+    text-transform: uppercase;
+    font-size: 11px;
+    padding-top: 2px;
+}
+
+/* Warna Status */
+.status-tag.success {
+    color: #16a34a;
+}
+
+/* Hijau */
+.status-tag.process {
+    color: #d97706;
+}
+
+/* Orange */
+.status-tag.info {
+    color: #2563eb;
+}
+
+/* Biru */
+
+.log-message {
+    color: #4b5563;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+.log-time {
+    color: #9ca3af;
+    margin-left: 10px;
+    font-size: 11px;
+}
+
+@keyframes fadeInLine {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Penyesuaian Dark Mode (Opsional: Jika user reload saat dark mode aktif) */
+body.dark-mode #preloader {
+    background-color: #050509;
+    /* Sesuai bg dark mode kamu */
+    color: #F5F5F5;
+}
+
+body.dark-mode .log-message {
+    color: #bbbbbb;
+}
+
+/* ─── LOGO ANIMATION (FLIP TEXT) ─── */
+
+/* Pastikan container logo mendukung layout flip */
+.logo {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    overflow: hidden; /* Sembunyikan huruf yang keluar jalur */
+    line-height: 1; /* Penting agar kalkulasi 1lh akurat */
+    padding: 5px 0; /* Memberi ruang sedikit */
+}
+
+@layer flip-text {
+    .flip-text {
+        /* Konfigurasi warna (Bisa disesuaikan dengan tema kamu) */
+        --clr-1: #7a8450; /* Hijau (saat animasi) */
+        --clr-2: #7b3b4b; /* Biru (saat animasi) */
+        --clr-3: #333333; /* Warna default (Dark Grey) */
+
+        /* Jarak dan Durasi */
+        --translate-distance: 1lh; /* 1lh = tinggi baris saat ini */
+        --duration: 3s;
+        --timing-function: cubic-bezier(0.66, 0, 0.34, 1);
+
+        overflow-y: hidden;
+        display: inline-flex;
+        gap: 0;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Samakan font */
+        font-weight: 700;
+    }
+
+    /* Style untuk setiap huruf */
+    .flip-text > span {
+        position: relative;
+        display: inline-grid;
+        place-content: center;
+        color: var(--clr-1);
+        
+        /* Kalkulasi variabel animasi */
+        --delay: calc(var(--i) * 100ms);
+        --translate: calc(var(--translate-distance) * 2);
+
+        /* Menjalankan animasi */
+        @media not (prefers-reduced-motion) {
+            animation: flip-transform var(--duration) var(--timing-function) var(--delay) infinite,
+                       flip-translate var(--duration) var(--timing-function) var(--delay) infinite;
+        }
+    }
+
+    /* TRIK PENTING:
+       Membuat duplikat huruf di bawah huruf asli menggunakan data-char.
+       Ini agar saat huruf asli naik, ada huruf pengganti di bawahnya.
+    */
+    .flip-text > span::after,
+    .flip-text > span::before {
+        content: attr(data-char);
+        position: absolute;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        color: var(--clr-2); /* Warna huruf pengganti 1 */
+    }
+
+    .flip-text > span::after {
+        top: 100%; /* Posisi tepat di bawah huruf asli */
+    }
+
+    .flip-text > span::before {
+        top: 200%; /* Posisi 2 baris di bawah, warna beda */
+        color: var(--clr-3);
+    }
+
+    /* Animasi Gerakan Naik Turun */
+    @keyframes flip-transform {
+        0% { transform: translateY(0); }
+        50%, 100% { transform: translateY(calc(var(--translate) * -1)); }
+    }
+
+    /* Animasi Reset Posisi (agar looping) */
+    @keyframes flip-translate {
+        0%, 24.99% { translate: 0 0; opacity: 1; }
+        25% { opacity: 0; } /* Hilang sekejap saat reset ke bawah */
+        25.01% { translate: 0 0; opacity: 1; } /* Kembali normal */
+    }
+}
+
+/* Penyesuaian Dark Mode agar warna teks tetap terbaca */
+body.dark-mode .flip-text {
+    --clr-1: #9b8384; /* Hijau terang */
+    --clr-2: #F5F5F5; /* Putih di dark mode */
+    --clr-3: #708090; /* Biru terang */   
+}
