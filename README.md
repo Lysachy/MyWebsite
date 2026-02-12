@@ -1,6 +1,23 @@
-### 🌐 MyWebsite
-Untuk mengunjungi website bisa langsung melalui tautan ini:
-**[Click here](https://Lysachy.github.io/MyWebsite/)**
+# 🌐 My Personal Website
 
-*About the website*
-Ini adalah personal website saya yang dibuat untuk kebutuhan proses pembelajaran dan penggunaan pribadi, website ini bisa diakses karena menggunakan gitpage dan custom domain.
+Welcome to my personal corner of the internet! This project serves as a digital space for my learning journey and personal branding.
+
+### 🚀 Live Preview
+You can explore the website live here:
+**[👉 Visit Lysachy.github.io](https://Lysachy.github.io/MyWebsite/)**
+
+---
+
+### 📖 About This Project
+This website is a personal project developed for **educational purposes** and **personal use**. It showcases my progress in web development and serves as a landing page for my work.
+
+* **Hosting:** Powered by [GitHub Pages](https://pages.github.com/).
+* **Domain:** Configured with a custom domain for a professional touch.
+* **Purpose:** Learning, experimentation, and personal showcase.
+
+### 🛠️ Tech Stack
+* **Frontend:** HTML, CSS, JavaScript
+* **Deployment:** GitHub Actions / Git Pages
+
+---
+*Created with ❤️ by [Lysachy](https://github.com/Lysachy)*
