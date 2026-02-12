@@ -85,6 +85,11 @@ body.dark-mode .hero-greeting-overlay {
     -webkit-text-stroke: 11px #050509;
 }
 
+/* Cursor color in dark mode */
+body.dark-mode .curzr circle {
+    fill: #F5F5F5;
+}
+
 
 /* ── HEADER ── */
 .header {
@@ -248,6 +253,21 @@ body.dark-mode .hero-greeting-overlay {
     z-index: 10;
     text-align: center;
     will-change: transform;
+}
+
+.hero-clock {
+    position: absolute;
+    bottom: 32px;
+    left: 48px;
+    z-index: 12;
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #777777;
+}
+
+body.dark-mode .hero-clock {
+    color: #DDDDDD;
 }
 
 .hero-greeting-wrapper {
