@@ -378,8 +378,8 @@ body.dark-mode .hero-clock {
 /* ── ABOUT SECTION ── */
 .about {
     position: relative;
-    padding: 120px 48px 140px;
-    min-height: 100vh;
+    padding: 120px 48px 60px;
+    min-height: auto;
     display: flex;
     align-items: center;
     justify-content: center;
