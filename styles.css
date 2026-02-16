@@ -1432,3 +1432,83 @@ body.dark-mode .flip-text {
     --clr-2: #F5F5F5; /* Putih di dark mode */
     --clr-3: #708090; /* Biru terang */   
 }
+
+/* ── IMAGE PREVIEW MODAL ── */
+.image-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Warna latar belakang Light Mode (transparan) */
+    background-color: rgba(255, 255, 240, 0.85); 
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+
+/* Latar belakang Dark Mode */
+body.dark-mode .image-modal {
+    background-color: rgba(5, 5, 9, 0.85);
+}
+
+.image-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    transform: scale(0.95);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Animasi pop-up gambar */
+.image-modal.active .modal-content {
+    transform: scale(1);
+}
+
+#modalImage {
+    max-width: 100%;
+    max-height: 85vh;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    object-fit: contain;
+}
+
+body.dark-mode #modalImage {
+    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+/* Tombol Close */
+.close-modal {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    font-size: 40px;
+    line-height: 1;
+    color: #333333;
+    font-weight: 300;
+    transition: color 0.3s, transform 0.3s;
+}
+
+body.dark-mode .close-modal {
+    color: #F5F5F5;
+}
+
+/* Efek Hover untuk Kartu agar pengguna tahu bisa diklik */
+.about-card {
+    transition: filter 0.3s ease, transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 1.2s ease;
+}
+
+.about-card:hover {
+    filter: brightness(1.1) contrast(1.05);
+}

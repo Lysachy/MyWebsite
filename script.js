@@ -107,35 +107,78 @@
         setInterval(updateClock, 1000);
     }
 
-/* ── DARK MODE TOGGLE ON LOGO DOUBLE CLICK ── */
-var logo = document.querySelector('.logo');
-if (logo) {
-    // Apply saved theme on load
-    var savedTheme = window.localStorage ? localStorage.getItem('theme') : null;
-    if (savedTheme === 'dark') {
-        document.body.classList.add('dark-mode');
+    /* ── DARK MODE TOGGLE ON LOGO DOUBLE CLICK ── */
+    var logo = document.querySelector('.logo');
+    if (logo) {
+        // Apply saved theme on load
+        var savedTheme = window.localStorage ? localStorage.getItem('theme') : null;
+        if (savedTheme === 'dark') {
+            document.body.classList.add('dark-mode');
+        }
+
+        // Menggunakan 'dblclick' agar perubahan hanya terjadi saat diklik 2 kali
+        logo.addEventListener('dblclick', function (event) {
+            event.preventDefault();
+            var body = document.body;
+            var isDark = body.classList.toggle('dark-mode');
+
+            if (window.localStorage) {
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            }
+
+            // Also scroll back to main section for convenience
+            var mainSection = document.getElementById('main');
+            if (mainSection) {
+                window.scrollTo({
+                    top: mainSection.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
     }
 
-    // Menggunakan 'dblclick' agar perubahan hanya terjadi saat diklik 2 kali
-    logo.addEventListener('dblclick', function (event) {
-        event.preventDefault();
-        var body = document.body;
-        var isDark = body.classList.toggle('dark-mode');
+    /* ── IMAGE MODAL PREVIEW (LIGHTBOX) ── */
+    var modal = document.getElementById('imageModal');
+    var modalImg = document.getElementById('modalImage');
+    var closeModal = document.getElementById('closeModal');
+    var aboutCardsList = document.querySelectorAll('.about-card');
 
-        if (window.localStorage) {
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    // Buka modal saat kartu diklik
+    aboutCardsList.forEach(function(card) {
+        card.addEventListener('click', function() {
+            modalImg.src = this.src; // Ambil src dari gambar yang diklik
+            if(modal) {
+                modal.classList.add('active'); // Tampilkan modal
+                document.body.style.overflow = 'hidden'; // Kunci scroll halaman
+            }
+        });
+    });
+
+    // Fungsi untuk menutup modal
+    function hideModal() {
+        if(modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = ''; // Kembalikan scroll halaman
+            
+            // Hapus sumber gambar setelah animasi selesai agar tidak glitch
+            setTimeout(function() {
+                if(modalImg) modalImg.src = ''; 
+            }, 400);
         }
+    }
 
-        // Also scroll back to main section for convenience
-        var mainSection = document.getElementById('main');
-        if (mainSection) {
-            window.scrollTo({
-                top: mainSection.offsetTop,
-                behavior: 'smooth'
-            });
+    // Tutup modal saat tombol (X) diklik
+    if (closeModal) {
+        closeModal.addEventListener('click', hideModal);
+    }
+
+    // Tutup modal saat area kosong di luar gambar diklik
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            hideModal();
         }
     });
-}
+
     /* ── RAF SCROLL HANDLER ── */
     var ticking = false;
 
