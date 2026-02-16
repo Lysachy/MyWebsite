@@ -385,13 +385,140 @@ body.dark-mode .hero-clock {
     justify-content: center;
 }
 
+/* ── UPDATE: Layout About ── */
+/* ── UPDATE: Layout About ── */
 .about-inner {
-    max-width: 1100px;
+    max-width: 1200px;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 1.4fr;
-    gap: 80px;
-    align-items: start;
+    /* Desktop layout: Kartu (Kiri), Judul (Tengah), Teks (Kanan) */
+    grid-template-columns: 1fr 0.8fr 1.2fr; 
+    gap: 80px; 
+    /* Hapus align-items: center dari sini, kita atur masing-masing di bawah */
+}
+
+/* ── Mengatur Posisi Desktop & Keselarasan ── */
+.about-cards { 
+    order: 1; 
+    margin-right: 40px; 
+    align-self: center; /* Kartu gambar biarkan tetap di tengah (vertikal) */
+}
+
+.about-left { 
+    order: 2; 
+    align-self: start; /* Tarik judul ke atas */
+    text-align: center; /* Buat judulnya di tengah kolom */
+}
+
+/* Supaya garis hiasan di bawah "About" ikut ke tengah & mekarnya dari tengah */
+.about-left .about-line {
+    margin: 28px auto 0 auto;
+    transform-origin: center;
+}
+
+.about-right { 
+    order: 3; 
+    align-self: start; /* Tarik teks ke atas */
+    /* Dorong sedikit ke bawah agar kata "Lorem ipsum" persis sejajar 
+       dengan kata "About", bukan dengan label "01 - introduction" */
+    margin-top: 32px; 
+}
+
+/* ── Efek Tumpukan Kartu ── */
+.about-cards {
+    position: relative;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 1s ease 0.3s, transform 1s ease 0.3s;
+    perspective: 1000px;
+}
+
+.about-cards.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card-stack {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    max-width: 280px;
+    margin: 0 auto;
+}
+
+.about-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.1), opacity 1.2s ease;
+    transform-origin: bottom center;
+}
+
+body.dark-mode .about-card {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* --- STATE AWAL: Semua kartu menumpuk di tengah --- */
+.about-card.card-1 { z-index: 3; transform: rotate(0deg) translate(0, 0); }
+.about-card.card-2 { z-index: 2; transform: rotate(0deg) translate(0, 0) scale(0.95); opacity: 0; }
+.about-card.card-3 { z-index: 1; transform: rotate(0deg) translate(0, 0) scale(0.9); opacity: 0; }
+
+/* --- STATE VISIBLE: Mekar ke arah tengah --- */
+.about-cards.visible .card-1 {
+    transform: rotate(-5deg) translateX(-10px);
+}
+.about-cards.visible .card-2 {
+    opacity: 1;
+    transform: rotate(6deg) translateX(25px) translateY(-10px);
+}
+.about-cards.visible .card-3 {
+    opacity: 1;
+    transform: rotate(16deg) translateX(55px) translateY(-5px);
+}
+
+/* ── UPDATE: Responsif Layout About ── */
+/* ── UPDATE: Responsif Layout About ── */
+@media (max-width: 1024px) {
+    .about-inner {
+        grid-template-columns: 1fr 1fr; /* Jadi 2 Kolom di Tablet */
+        gap: 50px;
+    }
+    
+    .about-left { 
+        order: 1; 
+        grid-column: 1 / -1; 
+        margin-bottom: 20px; 
+        /* Kembalikan jadi rata kiri di layar kecil */
+        text-align: left; 
+    }
+    
+    /* Kembalikan garis mekar dari kiri */
+    .about-left .about-line {
+        margin: 28px 0 0 0;
+        transform-origin: left;
+    }
+
+    .about-cards { 
+        order: 2; 
+        margin-right: 0; 
+    }
+    
+    .about-right { 
+        order: 3; 
+        margin-top: 0; /* Reset jarak atas teks */
+    }
+}
+
+@media (max-width: 768px) {
+    .about-inner {
+        grid-template-columns: 1fr; /* Jadi 1 Kolom di HP */
+        gap: 40px;
+    }
 }
 
 .about-left {

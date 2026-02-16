@@ -51,6 +51,7 @@
         document.getElementById('aboutHeading'),
         document.getElementById('aboutLine'),
         document.getElementById('aboutRight'),
+        document.getElementById('aboutCards'),
         document.getElementById('showcaseLabel'),
         document.getElementById('showcaseHeading'),
         document.getElementById('showcaseLine'),
