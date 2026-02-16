@@ -20,4 +20,4 @@ This website is a personal project developed for **educational purposes** and **
 * **Deployment:** GitHub Actions / Git Pages
 
 ---
-*Created with ❤️ by [Lysachy](https://github.com/Lysachy)*
+*Created by [Lysachy](https://github.com/Lysachy)*
