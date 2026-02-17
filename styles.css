@@ -640,6 +640,30 @@ body.dark-mode .about-card {
 
 /* ── RESPONSIVE ── */
 @media (max-width: 768px) {
+    /* 1. Kunci luapan horizontal di level HTML juga agar lebih aman */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    /* 2. Perkecil ukuran tumpukan kartu */
+    .card-stack {
+        max-width: 200px; /* Turun dari 280px agar muat di layar HP */
+    }
+
+    /* 3. Kurangi jarak mekar animasi kartunya */
+    .about-cards.visible .card-1 {
+        transform: rotate(-5deg) translateX(-5px);
+    }
+    .about-cards.visible .card-2 {
+        opacity: 1;
+        transform: rotate(6deg) translateX(15px) translateY(-8px);
+    }
+    .about-cards.visible .card-3 {
+        opacity: 1;
+        transform: rotate(16deg) translateX(30px) translateY(-4px);
+    }
+
     .header {
         padding: 22px 24px;
     }
