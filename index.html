@@ -14,12 +14,8 @@
     <div id="preloader">
         <div id="terminal"></div>
     </div>
-    <svg class="curzr" hidden>
-        <filter id="motionblur" x="-100%" y="-100%" width="400%" height="400%">
-            <feGaussianBlur class="curzr-motion-blur" stdDeviation="0, 0" />
-        </filter>
-        <circle cx="50%" cy="50%" r="10" fill="#120D27" filter="url(#motionblur)" />
-    </svg>
+    <div class="cursor-dot" id="cursor-dot"></div>
+    <div class="cursor-outline" id="cursor-outline"></div>
 
     <!-- SVG FILTER FOR NOISE GRAIN (referenced by overlay) -->
     <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">

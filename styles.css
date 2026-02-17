@@ -85,9 +85,37 @@ body.dark-mode .hero-greeting-overlay {
     -webkit-text-stroke: 11px #050509;
 }
 
-/* Cursor color in dark mode */
-body.dark-mode .curzr circle {
-    fill: #F5F5F5;
+/* ── CUSTOM CURSOR ── */
+/* Kursor default sudah dihilangkan di blok * { cursor: none !important; } */
+
+.cursor-dot,
+.cursor-outline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 999999; /* Ditinggikan agar tampil di atas preloader dan modal */
+  pointer-events: none;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #c45b3e; 
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #1a1a1a;
+  /* Tambahkan border-color ke transition agar halus saat ganti dark mode */
+  transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s, transform 0.2s;
+}
+
+/* Penyesuaian kursor untuk Dark Mode */
+body.dark-mode .cursor-outline {
+  border-color: #F5F5F5;
 }
 
 

@@ -1,121 +1,52 @@
-class MotionBlur {
-    constructor() {
-        this.root = document.body
-        this.cursor = document.querySelector(".curzr")
-        this.filter = document.querySelector(".curzr-motion-blur")
+const cursorDot = document.getElementById("cursor-dot");
+const cursorOutline = document.getElementById("cursor-outline");
 
-        this.position = {
-            distanceX: 0,
-            distanceY: 0,
-            pointerX: 0,
-            pointerY: 0,
-        },
-            this.previousPointerX = 0
-        this.previousPointerY = 0
-        this.angle = 0
-        this.previousAngle = 0
-        this.angleDisplace = 0
-        this.degrees = 57.296
-        this.cursorSize = 25
-        this.ticking = false
-        this.stopTimeout = null
+// Deteksi jika device touch screen (opsional, agar tidak bug di HP)
+const isTouchDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-        this.cursorStyle = {
-            boxSizing: 'border-box',
-            position: 'fixed',
-            top: `${this.cursorSize / -2}px`,
-            left: `${this.cursorSize / -2}px`,
-            zIndex: '2147483647',
-            width: `${this.cursorSize}px`,
-            height: `${this.cursorSize}px`,
-            borderRadius: '50%',
-            overflow: 'visible',
-            transition: '200ms, transform 10ms',
-            userSelect: 'none',
-            pointerEvents: 'none'
-        }
+if (!isTouchDevice && cursorDot && cursorOutline) {
+    // 1. Ikuti posisi mouse
+    window.addEventListener("mousemove", (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
 
-        this.init(this.cursor, this.cursorStyle)
-    }
+      // Dot langsung ikut posisi mouse
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
 
-    init(el, style) {
-        Object.assign(el.style, style)
-        this.cursor.removeAttribute("hidden")
+      // Outline mengikuti dengan animasi halus (delay)
+      cursorOutline.animate(
+        { left: `${posX}px`, top: `${posY}px` },
+        { duration: 500, fill: "forwards" }
+      );
+    });
 
-    }
+    // 2. Efek hover: membesar & berubah warna saat di atas elemen interaktif
+    // Menambahkan .nav-link, .logo, .about-card ke dalam daftar selector interaktif
+    document.querySelectorAll("a, button, input, .nav-link, .logo, .about-card").forEach((el) => {
+      el.addEventListener("mouseenter", () => {
+        cursorOutline.style.transform = "translate(-50%, -50%) scale(1.5)";
+        cursorOutline.style.borderColor = "#C45B3E";
+      });
+      
+      el.addEventListener("mouseleave", () => {
+        cursorOutline.style.transform = "translate(-50%, -50%) scale(1)";
+        // Kosongkan borderColor agar kembali mengikuti aturan CSS (berguna untuk dark mode)
+        cursorOutline.style.borderColor = ""; 
+      });
+    });
 
-    move(event) {
-        this.previousPointerX = this.position.pointerX
-        this.previousPointerY = this.position.pointerY
-        // Gunakan koordinat viewport (clientX/Y) agar kursor tetap sinkron
-        // dengan posisi mouse di layar, tidak bergeser saat scroll.
-        this.position.pointerX = event.clientX
-        this.position.pointerY = event.clientY
-        this.position.distanceX = Math.min(Math.max(this.previousPointerX - this.position.pointerX, -20), 20)
-        this.position.distanceY = Math.min(Math.max(this.previousPointerY - this.position.pointerY, -20), 20)
-
-        // Batasi update ke 1x per frame dengan requestAnimationFrame supaya gerakan lebih halus
-        if (!this.ticking) {
-            this.ticking = true
-            requestAnimationFrame(() => {
-                this.rotate(this.position)
-                this.cursor.style.transform =
-                    `translate3d(${this.position.pointerX}px, ${this.position.pointerY}px, 0) rotate(${this.angle}deg)`
-                this.ticking = false
-            })
-        }
-
-        // Atur blur supaya pelan-pelan hilang setelah gerakan berhenti (debounce)
-        this.stop()
-    }
-
-    rotate(position) {
-        let unsortedAngle = Math.atan(Math.abs(position.distanceY) / Math.abs(position.distanceX)) * this.degrees
-
-        if (isNaN(unsortedAngle)) {
-            this.angle = this.previousAngle
-        } else {
-            if (unsortedAngle <= 45) {
-                if (position.distanceX * position.distanceY >= 0) {
-                    this.angle = +unsortedAngle
-                } else {
-                    this.angle = -unsortedAngle
-                }
-                this.filter.setAttribute('stdDeviation', `${Math.abs(this.position.distanceX / 2)}, 0`)
-            } else {
-                if (position.distanceX * position.distanceY <= 0) {
-                    this.angle = 180 - unsortedAngle
-                } else {
-                    this.angle = unsortedAngle
-                }
-                this.filter.setAttribute('stdDeviation', `${Math.abs(this.position.distanceY / 2)}, 0`)
-            }
-        }
-        this.previousAngle = this.angle
-    }
-
-    stop() {
-        if (this.stopTimeout) {
-            clearTimeout(this.stopTimeout)
-        }
-        this.stopTimeout = setTimeout(() => {
-            this.filter.setAttribute('stdDeviation', '0, 0')
-            this.stopTimeout = null
-        }, 50)
-    }
-
-    remove() {
-        this.cursor.remove()
-    }
+    // 3. Efek dashed border saat hover elemen contenteditable
+    document.querySelectorAll("[contenteditable]").forEach((el) => {
+      el.addEventListener("mouseenter", () => {
+        cursorOutline.style.borderStyle = "dashed";
+      });
+      el.addEventListener("mouseleave", () => {
+        cursorOutline.style.borderStyle = "solid";
+      });
+    });
+} else if (cursorDot && cursorOutline) {
+    // Sembunyikan jika di mobile
+    cursorDot.style.display = 'none';
+    cursorOutline.style.display = 'none';
 }
-
-(() => {
-    const cursor = new MotionBlur()
-    if (!/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-        document.onmousemove = function (event) {
-            cursor.move(event)
-        }
-    } else {
-        cursor.remove()
-    }
-})()
