@@ -4,7 +4,7 @@ Welcome to my personal corner of the internet! This project serves as a digital 
 
 ### 🚀 Live Preview
 You can explore the website live here:
-**[👉 Visit Lysachy.github.io](https://Lysachy.github.io/MyWebsite/)**
+**[👉 Click here](https://Lysachy.github.io/MyWebsite/)**
 
 ---
 
