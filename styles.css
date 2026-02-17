@@ -573,6 +573,7 @@
        opacity: 0;
        transform: translateY(20px);
        transition: opacity 0.8s ease, transform 0.8s ease;
+       display: inline-block;
    }
    
    .about-label.visible {
@@ -629,6 +630,7 @@
        margin-top: 40px;
        display: flex;
        gap: 48px;
+       align-items: center;
    }
    
    .detail-item {
@@ -1063,3 +1065,216 @@
        .about-heading { font-size: 2rem; }
        .about-text { font-size: 0.95rem; line-height: 1.75; }
    }
+
+/* ==========================================
+   15. ASCII GLITCH HOVER EFFECT
+   ========================================== */
+   .about-label.as {
+    cursor: none; /* Menjaga custom cursor tetap terlihat */
+    user-select: none;
+    }
+
+    .about-label.as::selection {
+        background: transparent;
+    }
+
+   /* ==========================================
+   16. CONNECT SECTION (MINIMALIST)
+   ========================================== */
+.connect-section {
+    padding: 120px 48px 80px 48px; /* Memberi ruang kosong yang elegan */
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Tambahkan class ini agar kontennya sejajar dengan batas pinggir website (tidak melebar mentok) */
+.connect-section .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.connect-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 60px;
+    margin-top: 4px;
+}
+
+/* Tampilan Desktop: Membagi menjadi 2 kolom (Kiri Teks, Kanan Link) */
+@media (min-width: 768px) {
+    .connect-wrapper {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end; /* Meratakan ke bawah */
+    }
+    .connect-section {
+        padding: 80px 24px 100px 24px; /* Menyamakan jarak pinggir HP dengan section lain */
+    }
+
+}
+
+/* Typography Headline Minimalis */
+.connect-title {
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    font-weight: 500;
+    margin-bottom: 20px;
+    letter-spacing: -1.5px;
+}
+
+.connect-location {
+    font-family: 'Courier New', Courier, monospace; /* Kesan terminal/tech */
+    color: #888;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Container untuk Email dan Socials */
+.connect-links {
+    display: flex;
+    flex-direction: row;
+    gap: 60px; /* Jarak antara kolom email dan kolom sosial media */
+}
+
+/* Label Kecil (Sub-title) */
+.small-label {
+    display: block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+    margin-bottom: 20px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+
+/* ==========================================
+   17. LANDO NORRIS FLIP TEXT EFFECT
+   ========================================== */
+.flip-link {
+    display: inline-block;
+    overflow: hidden; /* Menyembunyikan teks bayangan di luar batas */
+    text-decoration: none;
+    color: inherit;
+    line-height: 1.2;
+    vertical-align: top;
+}
+
+.flip-link span {
+    display: block;
+    position: relative;
+    /* Transisi cubic-bezier ini yang membuat pantulannya sangat natural */
+    transition: transform 0.6s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.flip-link span::after {
+    content: attr(data-text); 
+    position: absolute;
+    left: 0;
+    top: 100%; /* Posisi bayangan ada di bawah teks asli */
+    width: 100%;
+    height: 100%;
+}
+
+.flip-link:hover span {
+    transform: translateY(-100%); /* Mendorong teks utama ke atas, bayangan naik ke tengah */
+}
+
+/* Spesifik untuk Link Email */
+.email-link {
+    font-size: clamp(1.2rem, 2vw, 2rem);
+    font-weight: 500;
+    letter-spacing: -0.5px;
+}
+
+/* Spesifik untuk Daftar Social Media (Kolom Vertikal) */
+.social-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column; /* Mengubah susunan menjadi atas-bawah */
+    gap: 12px;
+    align-items: flex-start; /* Memastikan kotak hover hanya selebar teks */
+}
+
+.social-list a {
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+/* Memastikan warna saat dark mode tetap bagus */
+body.dark-mode .flip-link {
+    color: #F5F5F5;
+}
+
+/* ==========================================
+   18. MAGNETIC CTA BUTTON
+   ========================================== */
+   :root {
+    --accent: #cfb3a9; /* Warna hijau neon saat di-hover */
+}
+
+/* Container untuk meratakan tombol ke kanan (opsional, jika ingin renggang) */
+.detail-cta {
+    margin-left: auto; 
+}
+
+.cta-btn {
+    position: relative;
+    padding: 1rem 2.2rem;
+    background: #050509; /* Warna gelap agar kontras dengan light mode */
+    color: #F5F5F5;
+    font-weight: 700;
+    border: 1px solid transparent;
+    border-radius: 50px; /* Sedikit melengkung agar lebih modern */
+    text-transform: uppercase;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    cursor: none; /* Mengikuti custom kursor milikmu */
+    overflow: hidden;
+    transition: all 0.3s;
+}
+
+/* Layer animasi warna hijau yang masuk dari kiri */
+.cta-btn::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    transform: translateX(-101%);
+    transition: transform 0.4s cubic-bezier(0.7, 0, 0.3, 1);
+    z-index: 1;
+}
+
+.cta-btn span {
+    position: relative;
+    z-index: 2;
+    transition: color 0.3s;
+}
+
+/* Mengubah state saat kursor diarahkan ke tombol */
+.cta-btn:hover span {
+    color: #050509;
+}
+
+.cta-btn:hover::after {
+    transform: translateX(0);
+}
+
+/* Penyesuaian saat Dark Mode */
+body.dark-mode .cta-btn {
+    background: transparent;
+    border: 1px solid rgba(245, 245, 245, 0.2);
+    color: #F5F5F5;
+}
+
+body.dark-mode .cta-btn:hover span {
+    color: #050509;
+}

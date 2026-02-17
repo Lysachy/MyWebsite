@@ -8,7 +8,7 @@
     
     <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/44/86/54/448654bf1c08dde854d3a50d0ad77d5f.jpg">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -42,6 +42,7 @@
             <a href="#about" class="nav-link">about</a>
             <a href="#gallery" class="nav-link">gallery</a>
             <a href="#showcase" class="nav-link">works</a>
+            <a href="#connect" class="nav-link">Connect</a>
         </nav>
     </header>
 
@@ -146,6 +147,11 @@
                             <span class="detail-number">Art &</span>
                             <span class="detail-label">Design</span>
                         </div>
+                        <div class="detail-cta">
+                            <button class="cta-btn magnetic" onclick="document.getElementById('connect').scrollIntoView({behavior: 'smooth'})">
+                                <span>LET'S TALK</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -205,10 +211,58 @@
                 </a>
             </div>
         </section>
+
+        <section class="connect-section" id="connect">
+            <div class="container">
+                <p class="about-label as" id="connectLabel">04 — CONNECT</p>
+                
+                <div class="connect-wrapper">
+                    <div class="connect-headline">
+                        <h1 class="connect-title">Let's<br>Connect together.</h1>
+                        <p class="connect-location">Based in Manado, Indonesia.</p>
+                    </div>
+    
+                    <div class="connect-links">
+                        <div class="connect-email-wrap">
+                            <span class="small-label">Send me an email</span>
+                            <a href="mailto:ilham@example.com" class="flip-link email-link">
+                                <span data-text="hello@lam.com">hello@lam.com</span>
+                            </a>
+                        </div>
+    
+                        <div class="connect-socials-wrap">
+                            <span class="small-label">Socials</span>
+                            <ul class="social-list">
+                                <li>
+                                    <a href="#" class="flip-link">
+                                        <span data-text="GitHub">GitHub</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flip-link">
+                                        <span data-text="Facebook">Facebook</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flip-link">
+                                        <span data-text="Instagram">Instagram</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="flip-link">
+                                        <span data-text="LinkedIn">LinkedIn</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="footer">
-        <p class="footer-text">&copy; 2025 lam — crafted with care</p>
+        <p class="footer-text">&copy; Crafted - Lam 2025</p>
     </footer>
 
     <div class="image-modal" id="imageModal" role="dialog" aria-modal="true">

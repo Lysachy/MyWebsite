@@ -1,5 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
+    // 0. SCROLL RESTORATION (FORCE TO TOP ON RELOAD)
+    // ==========================================
+    if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual'; // Mencegah browser mengingat posisi scroll
+    }
+    window.scrollTo(0, 0); // Memaksa scroll kembali ke paling atas
+
+    // ==========================================
     // 1. PRELOADER SYSTEM
     // ==========================================
     const initPreloader = () => {
@@ -256,7 +264,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const elementsToObserve = [
             'aboutLabel', 'aboutHeading', 'aboutLine', 'aboutRight', 'aboutCards',
             'showcaseLabel', 'showcaseHeading', 'showcaseLine',
-            'galleryLabel', 'galleryHeading', 'galleryLine'
+            'galleryLabel', 'galleryHeading', 'galleryLine',
+            'connectLabel'
         ].map(id => document.getElementById(id)).filter(el => el !== null);
 
         const observer = new IntersectionObserver((entries) => {
@@ -337,6 +346,333 @@ document.addEventListener("DOMContentLoaded", () => {
         updateParallax(initialScrollY);
     };
 
+
+    // ==========================================
+    // 9. ASCII GLITCH HOVER EFFECT (BINARY)
+    // ==========================================
+    const initAsciiGlitch = () => {
+        const WAVE_THRESH = 3;
+        const CHAR_MULT = 3;
+        const ANIM_STEP = 100; // 1. Diperlambat (sebelumnya 40)
+        const WAVE_BUF = 5;
+
+        const createASCIIShift = (el, opts = {}) => {
+            let origTxt = el.textContent;
+            let origChars = origTxt.split("");
+            let isAnim = false;
+            let cursorPos = 0;
+            let waves = [];
+            let animId = null;
+            let isHover = false;
+            let origW = null;
+
+            const cfg = {
+                dur: 600,
+                // 2. Menggunakan deretan biner acak
+                chars: '01101001011100101000101101001101', 
+                preserveSpaces: true,
+                spread: 0.3,
+                ...opts
+            };
+
+            const updateCursorPos = (e) => {
+                const rect = el.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const len = origTxt.length;
+                const pos = Math.round((x / rect.width) * len);
+                cursorPos = Math.max(0, Math.min(pos, len - 1));
+            };
+
+            const startWave = () => {
+                waves.push({
+                    startPos: cursorPos,
+                    startTime: Date.now(),
+                    id: Math.random()
+                });
+                if (!isAnim) start();
+            };
+
+            const cleanupWaves = (t) => {
+                waves = waves.filter((w) => t - w.startTime < cfg.dur);
+            };
+
+            const calcWaveEffect = (charIdx, t) => {
+                let shouldAnim = false;
+                let resultChar = origChars[charIdx];
+
+                for (const w of waves) {
+                    const age = t - w.startTime;
+                    const prog = Math.min(age / cfg.dur, 1);
+                    const dist = Math.abs(charIdx - w.startPos);
+                    const maxDist = Math.max(w.startPos, origChars.length - w.startPos - 1);
+                    const rad = (prog * (maxDist + WAVE_BUF)) / cfg.spread;
+
+                    if (dist <= rad) {
+                        shouldAnim = true;
+                        const intens = Math.max(0, rad - dist);
+
+                        if (intens <= WAVE_THRESH && intens > 0) {
+                            const charIdx = (dist * CHAR_MULT + Math.floor(age / ANIM_STEP)) % cfg.chars.length;
+                            resultChar = cfg.chars[charIdx];
+                        }
+                    }
+                }
+                return { shouldAnim, char: resultChar };
+            };
+
+            const genScrambledTxt = (t) =>
+                origChars.map((char, i) => {
+                    if (cfg.preserveSpaces && char === " ") return " ";
+                    const res = calcWaveEffect(i, t);
+                    return res.shouldAnim ? res.char : char;
+                }).join("");
+
+            const stop = () => {
+                el.textContent = origTxt;
+                el.classList.remove("as");
+                if (origW !== null) {
+                    el.style.width = "";
+                    origW = null;
+                }
+                isAnim = false;
+            };
+
+            const start = () => {
+                if (isAnim) return;
+
+                if (origW === null) {
+                    origW = el.getBoundingClientRect().width;
+                    el.style.width = `${origW}px`;
+                }
+
+                isAnim = true;
+                el.classList.add("as");
+
+                const animate = () => {
+                    const t = Date.now();
+                    cleanupWaves(t);
+
+                    if (waves.length === 0) {
+                        stop();
+                        return;
+                    }
+
+                    el.textContent = genScrambledTxt(t);
+                    animId = requestAnimationFrame(animate);
+                };
+                animId = requestAnimationFrame(animate);
+            };
+
+            const handleEnter = (e) => {
+                isHover = true;
+                updateCursorPos(e);
+                startWave();
+            };
+
+            const handleMove = (e) => {
+                if (!isHover) return;
+                const old = cursorPos;
+                updateCursorPos(e);
+                if (cursorPos !== old) startWave();
+            };
+
+            const handleLeave = () => {
+                isHover = false;
+            };
+
+            const init = () => {
+                el.addEventListener("mouseenter", handleEnter);
+                el.addEventListener("mousemove", handleMove);
+                el.addEventListener("mouseleave", handleLeave);
+            };
+
+            init();
+        };
+
+        // 3. Ubah target dari .about-text menjadi .about-label
+        const labelBlocks = document.querySelectorAll(".about-label");
+        labelBlocks.forEach((block) => {
+            if (!block.textContent.trim()) return;
+            // 4. Durasi diperlambat menjadi 2500ms
+            createASCIIShift(block, { dur: 2500, spread: 1 });
+        });
+    };
+
+    // ==========================================
+    // 10. ASCII TEXT REVEAL ON SCROLL
+    // ==========================================
+    const initAsciiReveal = () => {
+        const WAVE_THRESH = 3;
+        const CHAR_MULT = 3;
+        const ANIM_STEP = 60; // Kecepatan acak biner (semakin besar semakin lambat)
+        const WAVE_BUF = 5;
+
+        const createRevealEffect = (el, opts = {}) => {
+            let origTxt = el.textContent;
+            let origChars = origTxt.split("");
+            let isAnim = false;
+            let waves = [];
+            let animId = null;
+            let origW = null;
+            let origH = null;
+
+            const cfg = {
+                dur: 5000, // Lama proses dekripsi
+                chars: '01101001011100101000101101001101', 
+                preserveSpaces: true,
+                spread: 1.5, // Spread diperbesar agar merambat mulus ke seluruh paragraf
+                ...opts
+            };
+
+            const startWave = (pos) => {
+                waves.push({
+                    startPos: pos,
+                    startTime: Date.now(),
+                    id: Math.random()
+                });
+                if (!isAnim) start();
+            };
+
+            const cleanupWaves = (t) => {
+                waves = waves.filter((w) => t - w.startTime < cfg.dur);
+            };
+
+            const calcWaveEffect = (charIdx, t) => {
+                let shouldAnim = false;
+                let resultChar = origChars[charIdx];
+
+                for (const w of waves) {
+                    const age = t - w.startTime;
+                    const prog = Math.min(age / cfg.dur, 1);
+                    const dist = Math.abs(charIdx - w.startPos);
+                    const maxDist = Math.max(w.startPos, origChars.length - w.startPos - 1);
+                    const rad = (prog * (maxDist + WAVE_BUF)) / cfg.spread;
+
+                    if (dist <= rad) {
+                        shouldAnim = true;
+                        const intens = Math.max(0, rad - dist);
+
+                        if (intens <= WAVE_THRESH && intens > 0) {
+                            const charIdx = (dist * CHAR_MULT + Math.floor(age / ANIM_STEP)) % cfg.chars.length;
+                            resultChar = cfg.chars[charIdx];
+                        }
+                    }
+                }
+                return { shouldAnim, char: resultChar };
+            };
+
+            const genScrambledTxt = (t) =>
+                origChars.map((char, i) => {
+                    if (cfg.preserveSpaces && char === " ") return " ";
+                    const res = calcWaveEffect(i, t);
+                    return res.shouldAnim ? res.char : char;
+                }).join("");
+
+            const stop = () => {
+                el.textContent = origTxt;
+                // Kembalikan styling normal setelah animasi selesai
+                if (origW !== null) el.style.width = "";
+                if (origH !== null) el.style.height = "";
+                isAnim = false;
+            };
+
+            const start = () => {
+                if (isAnim) return;
+
+                // Kunci dimensi kotak teks agar layout tidak loncat-loncat saat teks diacak
+                const rect = el.getBoundingClientRect();
+                origW = rect.width;
+                origH = rect.height;
+                el.style.width = `${origW}px`;
+                el.style.height = `${origH}px`;
+
+                isAnim = true;
+
+                const animate = () => {
+                    const t = Date.now();
+                    cleanupWaves(t);
+
+                    if (waves.length === 0) {
+                        stop();
+                        return;
+                    }
+
+                    el.textContent = genScrambledTxt(t);
+                    animId = requestAnimationFrame(animate);
+                };
+                animId = requestAnimationFrame(animate);
+            };
+
+            return {
+                reveal: () => {
+                    // Memicu dua gelombang: dari karakter pertama (index 0) 
+                    // dan dari karakter terakhir agar menyatu di tengah
+                    startWave(0);
+                    setTimeout(() => startWave(origChars.length - 1), 300);
+                }
+            };
+        };
+
+        const textBlocks = document.querySelectorAll(".about-text");
+        
+        // Buat observer baru khusus untuk nge-trigger animasi ini
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const revealer = createRevealEffect(entry.target, { dur: 2200, spread: 1.5 });
+                    
+                    // Delay 200ms agar pas dengan animasi fade-in transform dari CSS kamu
+                    setTimeout(() => {
+                        revealer.reveal();
+                    }, 200); 
+                    
+                    // Unobserve agar efek ini hanya jalan SATU KALI saat pertama di-scroll
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { 
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px' // Trigger saat elemen sedikit naik ke tengah layar
+        });
+
+        setTimeout(() => {
+            textBlocks.forEach(block => observer.observe(block));
+        }, 2000); 
+    };
+
+    // ==========================================
+    // 11. MAGNETIC BUTTON EFFECT
+    // ==========================================
+    const initMagnetic = () => {
+        const magneticElements = document.querySelectorAll('.magnetic');
+
+        magneticElements.forEach(el => {
+            el.addEventListener('mousemove', (e) => {
+                const rect = el.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+                const dist = 0.3; // Kekuatan magnet (saya atur 0.3 agar smooth & tidak terlalu liar)
+
+                const moveX = (e.clientX - centerX) * dist;
+                const moveY = (e.clientY - centerY) * dist;
+
+                // Menggeser tombol mengikuti kursor
+                el.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+
+            el.addEventListener('mouseleave', () => {
+                // Mengembalikan tombol ke posisi semula saat kursor pergi
+                el.style.transform = 'translate(0, 0)';
+                el.style.transition = 'transform 0.3s ease'; // Efek smooth saat kembali
+            });
+            
+            // Menghapus transition saat digerakkan agar tidak delay/lag
+            el.addEventListener('mouseenter', () => {
+                el.style.transition = 'none';
+            });
+        });
+    };
+
     // ==========================================
     // INITIALIZATION RUNNER
     // ==========================================
@@ -348,4 +684,8 @@ document.addEventListener("DOMContentLoaded", () => {
     initModal();
     initObservers();
     initScrollEngine();
+    initAsciiGlitch();
+    initAsciiReveal();
+    initMagnetic();
+    
 });
