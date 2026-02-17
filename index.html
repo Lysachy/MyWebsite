@@ -4,33 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lam</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Lam | Portfolio</title>
+    
     <link rel="icon" type="image/png" href="https://i.pinimg.com/736x/44/86/54/448654bf1c08dde854d3a50d0ad77d5f.jpg">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div id="preloader">
         <div id="terminal"></div>
     </div>
+
     <div class="cursor-dot" id="cursor-dot"></div>
     <div class="cursor-outline" id="cursor-outline"></div>
 
-    <!-- SVG FILTER FOR NOISE GRAIN (referenced by overlay) -->
-    <svg style="position:absolute;width:0;height:0;overflow:hidden;" aria-hidden="true">
+    <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
         <defs>
             <filter id="noiseFilter" x="0%" y="0%" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch"
-                    result="noise" />
+                <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="4" stitchTiles="stitch" result="noise" />
                 <feColorMatrix type="saturate" values="0" in="noise" result="greyNoise" />
             </filter>
         </defs>
     </svg>
 
-    <!-- HEADER -->
     <header class="header" id="siteHeader">
-        <a href="#main" class="logo">
+        <a href="#main" class="logo" aria-label="Home">
             <span class="flip-text">
                 <span data-char="L" style="--i: 1">L</span>
                 <span data-char="a" style="--i: 2">a</span>
@@ -38,268 +38,186 @@
                 <span data-char="." style="--i: 4">.</span>
             </span>
         </a>
-        <nav class="nav">
+        <nav class="nav" aria-label="Main Navigation">
             <a href="#about" class="nav-link">about</a>
             <a href="#gallery" class="nav-link">gallery</a>
             <a href="#showcase" class="nav-link">works</a>
         </nav>
     </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero" id="main">
-
-        <!-- CLOCK -->
-        <div class="hero-clock">
-            <span id="clockDisplay">--:--:--</span>
-        </div>
-
-        <!-- NOISE OVERLAY -->
-        <div class="hero-noise-overlay" id="noiseOverlay">
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
-                <rect width="100%" height="100%" filter="url(#noiseFilter)" opacity="1" />
-            </svg>
-        </div>
-
-        <!-- ORBS -->
-        <div class="hero-orb hero-orb-1" id="orb1"></div>
-        <div class="hero-orb hero-orb-2" id="orb2"></div>
-        <div class="hero-orb hero-orb-3" id="orb3"></div>
-        <div class="hero-orb hero-orb-4" id="orb4"></div>
-
-        <!-- ABSTRACT LINE ART LAYER -->
-        <div class="hero-lines-layer" id="heroLines">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice"
-                fill="none">
-
-                <!-- Large elliptical arcs — enhanced contrast -->
-                <ellipse cx="720" cy="450" rx="380" ry="260" stroke="#9A9A9A" stroke-width="0.8" opacity="0.55" />
-                <ellipse cx="720" cy="450" rx="320" ry="200" stroke="#A0A0A0" stroke-width="0.7" opacity="0.42" />
-                <ellipse cx="720" cy="450" rx="520" ry="340" stroke="#A9A9A9" stroke-width="0.6" opacity="0.33" />
-                <ellipse cx="720" cy="450" rx="440" ry="290" stroke="#A5A5A5" stroke-width="0.5" opacity="0.22"
-                    stroke-dasharray="8 12" />
-
-                <!-- Primary diagonal lines -->
-                <line x1="100" y1="120" x2="600" y2="750" stroke="#8F8F8F" stroke-width="0.8" opacity="0.48" />
-                <line x1="840" y1="80" x2="1340" y2="820" stroke="#8F8F8F" stroke-width="0.8" opacity="0.42" />
-                <line x1="300" y1="50" x2="1200" y2="850" stroke="#9A9A9A" stroke-width="0.6" opacity="0.32" />
-                <line x1="1100" y1="100" x2="350" y2="800" stroke="#959595" stroke-width="0.7" opacity="0.36" />
-
-                <!-- Secondary diagonal lines -->
-                <line x1="50" y1="400" x2="700" y2="50" stroke="#A0A0A0" stroke-width="0.5" opacity="0.24" />
-                <line x1="740" y1="850" x2="1400" y2="350" stroke="#A0A0A0" stroke-width="0.5" opacity="0.24" />
-
-                <!-- Horizontal guiding lines -->
-                <line x1="0" y1="300" x2="1440" y2="300" stroke="#A9A9A9" stroke-width="0.5" opacity="0.22" />
-                <line x1="0" y1="600" x2="1440" y2="600" stroke="#A9A9A9" stroke-width="0.5" opacity="0.22" />
-                <line x1="0" y1="450" x2="1440" y2="450" stroke="#A9A9A9" stroke-width="0.35" opacity="0.16" />
-
-                <!-- Vertical markers -->
-                <line x1="360" y1="0" x2="360" y2="900" stroke="#A9A9A9" stroke-width="0.4" opacity="0.18" />
-                <line x1="1080" y1="0" x2="1080" y2="900" stroke="#A9A9A9" stroke-width="0.4" opacity="0.18" />
-                <line x1="720" y1="0" x2="720" y2="900" stroke="#A9A9A9" stroke-width="0.3" opacity="0.13" />
-
-                <!-- Circular intersection accents -->
-                <circle cx="360" cy="300" r="5" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.5" />
-                <circle cx="1080" cy="600" r="5" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.5" />
-                <circle cx="720" cy="450" r="8" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.45" />
-                <circle cx="720" cy="450" r="3" fill="#999999" opacity="0.38" />
-                <circle cx="360" cy="600" r="4" stroke="#959595" stroke-width="0.6" fill="none" opacity="0.35" />
-                <circle cx="1080" cy="300" r="4" stroke="#959595" stroke-width="0.6" fill="none" opacity="0.35" />
-
-                <!-- Sweeping curve paths -->
-                <path d="M 200 200 Q 500 80 800 250" stroke="#959595" stroke-width="0.7" fill="none" opacity="0.34" />
-                <path d="M 640 650 Q 900 810 1240 680" stroke="#959595" stroke-width="0.7" fill="none" opacity="0.34" />
-                <path d="M 100 500 Q 400 340 720 420" stroke="#9A9A9A" stroke-width="0.6" fill="none" opacity="0.28" />
-                <path d="M 720 480 Q 1040 560 1340 400" stroke="#9A9A9A" stroke-width="0.6" fill="none"
-                    opacity="0.28" />
-                <path d="M 50 700 Q 360 580 720 650" stroke="#A0A0A0" stroke-width="0.5" fill="none" opacity="0.22" />
-                <path d="M 720 250 Q 1060 180 1400 300" stroke="#A0A0A0" stroke-width="0.5" fill="none"
-                    opacity="0.22" />
-
-                <!-- Angular geometric fragments -->
-                <polyline points="480,180 580,280 520,380" stroke="#8F8F8F" stroke-width="0.7" fill="none"
-                    opacity="0.32" />
-                <polyline points="920,520 1020,620 960,720" stroke="#8F8F8F" stroke-width="0.7" fill="none"
-                    opacity="0.32" />
-                <polyline points="250,400 310,320 400,360" stroke="#959595" stroke-width="0.6" fill="none"
-                    opacity="0.25" />
-                <polyline points="1040,380 1120,440 1080,540" stroke="#959595" stroke-width="0.6" fill="none"
-                    opacity="0.25" />
-
-                <!-- Sparse dot grid -->
-                <circle cx="180" cy="200" r="1.8" fill="#8F8F8F" opacity="0.32" />
-                <circle cx="400" cy="150" r="1.8" fill="#8F8F8F" opacity="0.32" />
-                <circle cx="1040" cy="200" r="1.8" fill="#8F8F8F" opacity="0.32" />
-                <circle cx="1260" cy="350" r="1.8" fill="#8F8F8F" opacity="0.32" />
-                <circle cx="180" cy="700" r="1.8" fill="#8F8F8F" opacity="0.32" />
-                <circle cx="1260" cy="650" r="1.8" fill="#8F8F8F" opacity="0.32" />
-                <circle cx="540" cy="700" r="1.5" fill="#999999" opacity="0.25" />
-                <circle cx="900" cy="180" r="1.5" fill="#999999" opacity="0.25" />
-                <circle cx="620" cy="100" r="1.5" fill="#999999" opacity="0.25" />
-                <circle cx="820" cy="800" r="1.5" fill="#999999" opacity="0.25" />
-
-                <!-- Small cross-marks at key intersections -->
-                <line x1="356" y1="300" x2="364" y2="300" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
-                <line x1="360" y1="296" x2="360" y2="304" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
-                <line x1="1076" y1="600" x2="1084" y2="600" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
-                <line x1="1080" y1="596" x2="1080" y2="604" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
-            </svg>
-        </div>
-
-        <!-- TEXT LAYER (highest z-plane) -->
-        <div class="hero-text-layer" id="heroText">
-            <div class="hero-greeting-wrapper">
-                <h1 class="hero-greeting">Lysache</h1>
-                <span class="hero-greeting-overlay">Hello there!</span>
+    <main>
+        <section class="hero" id="main">
+            <div class="hero-clock">
+                <span id="clockDisplay">--:--:--</span>
             </div>
-            <p class="hero-subtitle">welcome to a quieter corner</p>
-        </div>
 
-        <div class="scroll-indicator">
-            <span>scroll</span>
-            <div class="scroll-line"></div>
-        </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section class="about" id="about">
-        <div class="about-inner">
-            <div class="about-left">
-                <p class="about-label" id="aboutLabel">01 — introduction</p>
-                <h2 class="about-heading" id="aboutHeading">About</h2>
-                <div class="about-line" id="aboutLine"></div>
+            <div class="hero-noise-overlay" id="noiseOverlay" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">
+                    <rect width="100%" height="100%" filter="url(#noiseFilter)" opacity="1" />
+                </svg>
             </div>
-            
-            <div class="about-cards" id="aboutCards">
-                <div class="card-stack">
-                    <img src="https://i.pinimg.com/736x/56/cd/0c/56cd0c1d790f1d9f0ecea6cfa5f4c8f9.jpg" class="about-card card-3" alt="Gallery Image 3">
-                    <img src="https://i.pinimg.com/736x/cf/e8/25/cfe825752e60f9e80d273ad4c5ec9b5c.jpg" class="about-card card-2" alt="Gallery Image 2">
-                    <img src="https://i.pinimg.com/736x/e6/f5/c6/e6f5c62feb15f5b7844cb41c69d49779.jpg" class="about-card card-1" alt="Gallery Image 1">
+
+            <div class="hero-orb hero-orb-1" id="orb1" aria-hidden="true"></div>
+            <div class="hero-orb hero-orb-2" id="orb2" aria-hidden="true"></div>
+            <div class="hero-orb hero-orb-3" id="orb3" aria-hidden="true"></div>
+            <div class="hero-orb hero-orb-4" id="orb4" aria-hidden="true"></div>
+
+            <div class="hero-lines-layer" id="heroLines" aria-hidden="true">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" fill="none">
+                    <ellipse cx="720" cy="450" rx="380" ry="260" stroke="#9A9A9A" stroke-width="0.8" opacity="0.55" />
+                    <ellipse cx="720" cy="450" rx="320" ry="200" stroke="#A0A0A0" stroke-width="0.7" opacity="0.42" />
+                    <ellipse cx="720" cy="450" rx="520" ry="340" stroke="#A9A9A9" stroke-width="0.6" opacity="0.33" />
+                    <ellipse cx="720" cy="450" rx="440" ry="290" stroke="#A5A5A5" stroke-width="0.5" opacity="0.22" stroke-dasharray="8 12" />
+                    
+                    <line x1="100" y1="120" x2="600" y2="750" stroke="#8F8F8F" stroke-width="0.8" opacity="0.48" />
+                    <line x1="840" y1="80" x2="1340" y2="820" stroke="#8F8F8F" stroke-width="0.8" opacity="0.42" />
+                    <line x1="300" y1="50" x2="1200" y2="850" stroke="#9A9A9A" stroke-width="0.6" opacity="0.32" />
+                    <line x1="1100" y1="100" x2="350" y2="800" stroke="#959595" stroke-width="0.7" opacity="0.36" />
+                    <line x1="50" y1="400" x2="700" y2="50" stroke="#A0A0A0" stroke-width="0.5" opacity="0.24" />
+                    <line x1="740" y1="850" x2="1400" y2="350" stroke="#A0A0A0" stroke-width="0.5" opacity="0.24" />
+
+                    <line x1="0" y1="300" x2="1440" y2="300" stroke="#A9A9A9" stroke-width="0.5" opacity="0.22" />
+                    <line x1="0" y1="600" x2="1440" y2="600" stroke="#A9A9A9" stroke-width="0.5" opacity="0.22" />
+                    <line x1="0" y1="450" x2="1440" y2="450" stroke="#A9A9A9" stroke-width="0.35" opacity="0.16" />
+                    <line x1="360" y1="0" x2="360" y2="900" stroke="#A9A9A9" stroke-width="0.4" opacity="0.18" />
+                    <line x1="1080" y1="0" x2="1080" y2="900" stroke="#A9A9A9" stroke-width="0.4" opacity="0.18" />
+                    <line x1="720" y1="0" x2="720" y2="900" stroke="#A9A9A9" stroke-width="0.3" opacity="0.13" />
+
+                    <circle cx="360" cy="300" r="5" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.5" />
+                    <circle cx="1080" cy="600" r="5" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.5" />
+                    <circle cx="720" cy="450" r="8" stroke="#8F8F8F" stroke-width="0.8" fill="none" opacity="0.45" />
+                    <circle cx="720" cy="450" r="3" fill="#999999" opacity="0.38" />
+                    <path d="M 200 200 Q 500 80 800 250" stroke="#959595" stroke-width="0.7" fill="none" opacity="0.34" />
+                    <path d="M 640 650 Q 900 810 1240 680" stroke="#959595" stroke-width="0.7" fill="none" opacity="0.34" />
+                    <path d="M 100 500 Q 400 340 720 420" stroke="#9A9A9A" stroke-width="0.6" fill="none" opacity="0.28" />
+                    
+                    <polyline points="480,180 580,280 520,380" stroke="#8F8F8F" stroke-width="0.7" fill="none" opacity="0.32" />
+                    <polyline points="920,520 1020,620 960,720" stroke="#8F8F8F" stroke-width="0.7" fill="none" opacity="0.32" />
+                    <circle cx="180" cy="200" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                    <circle cx="400" cy="150" r="1.8" fill="#8F8F8F" opacity="0.32" />
+                    <line x1="356" y1="300" x2="364" y2="300" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
+                    <line x1="360" y1="296" x2="360" y2="304" stroke="#8F8F8F" stroke-width="0.6" opacity="0.4" />
+                </svg>
+            </div>
+
+            <div class="hero-text-layer" id="heroText">
+                <div class="hero-greeting-wrapper">
+                    <h1 class="hero-greeting">Lysache</h1>
+                    <span class="hero-greeting-overlay" aria-hidden="true">Hello there!</span>
                 </div>
+                <p class="hero-subtitle">welcome to a quieter corner</p>
             </div>
-    
-            <div class="about-right" id="aboutRight">
-                <p class="about-text">
-                    Hi, I'm Ilham—but you can call me Lam. I am a final-year Informatics student at Politeknik Negeri Manado, currently interning at PT Semesta Tegang Perkasa. I have a deep passion for blending clean code with striking visual aesthetics.
-                </p>
-                <p class="about-text">
-                    My work focuses on web development, particularly using React, alongside a strong interest in minimalist, typographic, and colorful design. Beyond coding, I explore creative visual storytelling through photography, videography, and video editing. Currently, I'm channeling these skills into my final thesis: building an integrated OTA platform with IoT for real-time underwater tourism monitoring.
-                </p>
-                <div class="about-detail">
-                    <div class="detail-item">
-                        <span class="detail-number">Visual</span>
-                        <span class="detail-label">minimalist</span>
+
+            <div class="scroll-indicator" aria-hidden="true">
+                <span>scroll</span>
+                <div class="scroll-line"></div>
+            </div>
+        </section>
+
+        <section class="about" id="about">
+            <div class="about-inner">
+                <div class="about-left">
+                    <p class="about-label" id="aboutLabel">01 — introduction</p>
+                    <h2 class="about-heading" id="aboutHeading">About</h2>
+                    <div class="about-line" id="aboutLine"></div>
+                </div>
+                
+                <div class="about-cards" id="aboutCards">
+                    <div class="card-stack">
+                        <img src="https://i.pinimg.com/736x/56/cd/0c/56cd0c1d790f1d9f0ecea6cfa5f4c8f9.jpg" class="about-card card-3" alt="Gallery Image 3">
+                        <img src="https://i.pinimg.com/736x/cf/e8/25/cfe825752e60f9e80d273ad4c5ec9b5c.jpg" class="about-card card-2" alt="Gallery Image 2">
+                        <img src="https://i.pinimg.com/736x/e6/f5/c6/e6f5c62feb15f5b7844cb41c69d49779.jpg" class="about-card card-1" alt="Gallery Image 1">
                     </div>
-                    <div class="detail-item">
-                        <span class="detail-number">Art &</span>
-                        <span class="detail-label">Design</span>
+                </div>
+        
+                <div class="about-right" id="aboutRight">
+                    <p class="about-text">
+                        Hi, I'm Ilham—but you can call me Lam. I am a final-year Informatics student at Politeknik Negeri Manado, currently interning at PT Semesta Tegang Perkasa. I have a deep passion for blending clean code with striking visual aesthetics.
+                    </p>
+                    <p class="about-text">
+                        My work focuses on web development, particularly using React, alongside a strong interest in minimalist, typographic, and colorful design. Beyond coding, I explore creative visual storytelling through photography, videography, and video editing. Currently, I'm channeling these skills into my final thesis: building an integrated OTA platform with IoT for real-time underwater tourism monitoring.
+                    </p>
+                    <div class="about-detail">
+                        <div class="detail-item">
+                            <span class="detail-number">Visual</span>
+                            <span class="detail-label">minimalist</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-number">Art &</span>
+                            <span class="detail-label">Design</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- GALLERY SECTION -->
-    <section class="loop-images" id="gallery">
-        <div class="showcase-header">
-            <p class="about-label" id="galleryLabel">02 — GALLERY</p>
-            <h2 class="about-heading" id="galleryHeading">Gallery</h2>
-            <div class="about-line" id="galleryLine"></div>
-        </div>
-        <div class="carousel-track">
-            <div class="carousel-item" style="--i: 1;">
-                <img src="https://i.pinimg.com/1200x/9c/e8/67/9ce867ace02765fd934e72f250655b80.jpg" alt="image">
+        <section class="loop-images" id="gallery">
+            <header class="showcase-header">
+                <p class="about-label" id="galleryLabel">02 — GALLERY</p>
+                <h2 class="about-heading" id="galleryHeading">Gallery</h2>
+                <div class="about-line" id="galleryLine"></div>
+            </header>
+            <div class="carousel-track">
+                <div class="carousel-item" style="--i: 1;"><img src="https://i.pinimg.com/1200x/9c/e8/67/9ce867ace02765fd934e72f250655b80.jpg" alt="Gallery preview 1"></div>
+                <div class="carousel-item" style="--i: 2;"><img src="https://i.pinimg.com/736x/d0/65/81/d065818cebd73b5c96f805f0337e3930.jpg" alt="Gallery preview 2"></div>
+                <div class="carousel-item" style="--i: 3;"><img src="https://i.pinimg.com/1200x/9b/05/0e/9b050e1c1f4dfa1865a9e255a3561714.jpg" alt="Gallery preview 3"></div>
+                <div class="carousel-item" style="--i: 4;"><img src="https://i.pinimg.com/736x/da/89/36/da893639624347b0f17c4f2263683957.jpg" alt="Gallery preview 4"></div>
+                <div class="carousel-item" style="--i: 5;"><img src="https://i.pinimg.com/736x/cf/e8/25/cfe825752e60f9e80d273ad4c5ec9b5c.jpg" alt="Gallery preview 5"></div>
+                <div class="carousel-item" style="--i: 6;"><img src="https://i.pinimg.com/736x/49/d2/f9/49d2f998c1233dbe0f1de2309713d001.jpg" alt="Gallery preview 6"></div>
+                <div class="carousel-item" style="--i: 7;"><img src="https://i.pinimg.com/736x/eb/6b/7b/eb6b7b913b64028f5baa595f22b50f41.jpg" alt="Gallery preview 7"></div>
+                <div class="carousel-item" style="--i: 8;"><img src="https://i.pinimg.com/736x/08/6d/20/086d20ac2420cf9a2df5d4131321e469.jpg" alt="Gallery preview 8"></div>
+                <div class="carousel-item" style="--i: 9;"><img src="https://i.pinimg.com/736x/33/13/8a/33138ae8dd1673758f1e03ed812ca08e.jpg" alt="Gallery preview 9"></div>
+                <div class="carousel-item" style="--i: 10;"><img src="https://i.pinimg.com/1200x/1a/e1/52/1ae1525bd640a4ad4dd3bc19bfdcc5d9.jpg" alt="Gallery preview 10"></div>
+                <div class="carousel-item" style="--i: 11;"><img src="https://i.pinimg.com/736x/dd/67/c2/dd67c2a835c52e222617606af0a0aace.jpg" alt="Gallery preview 11"></div>
+                <div class="carousel-item" style="--i: 12;"><img src="https://i.pinimg.com/736x/f5/75/9f/f5759f5e8f05c21ab9847becead1796f.jpg" alt="Gallery preview 12"></div>
             </div>
-            <div class="carousel-item" style="--i: 2;">
-                <img src="https://i.pinimg.com/736x/d0/65/81/d065818cebd73b5c96f805f0337e3930.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 3;">
-                <img src="https://i.pinimg.com/1200x/9b/05/0e/9b050e1c1f4dfa1865a9e255a3561714.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 4;">
-                <img src="https://i.pinimg.com/736x/da/89/36/da893639624347b0f17c4f2263683957.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 5;">
-                <img src="https://i.pinimg.com/736x/cf/e8/25/cfe825752e60f9e80d273ad4c5ec9b5c.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 6;">
-                <img src="https://i.pinimg.com/736x/49/d2/f9/49d2f998c1233dbe0f1de2309713d001.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 7;">
-                <img src="https://i.pinimg.com/736x/eb/6b/7b/eb6b7b913b64028f5baa595f22b50f41.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 8;">
-                <img src="https://i.pinimg.com/736x/08/6d/20/086d20ac2420cf9a2df5d4131321e469.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 9;">
-                <img src="https://i.pinimg.com/736x/33/13/8a/33138ae8dd1673758f1e03ed812ca08e.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 10;">
-                <img src="https://i.pinimg.com/1200x/1a/e1/52/1ae1525bd640a4ad4dd3bc19bfdcc5d9.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 11;">
-                <img src="https://i.pinimg.com/736x/dd/67/c2/dd67c2a835c52e222617606af0a0aace.jpg" alt="image">
-            </div>
-            <div class="carousel-item" style="--i: 12;">
-                <img src="https://i.pinimg.com/736x/f5/75/9f/f5759f5e8f05c21ab9847becead1796f.jpg" alt="image">
-            </div>
-        </div>
-    </section>
+        </section>
 
-
-    <!-- SHOWCASE SECTION -->
-    <section class="showcase" id="showcase">
-        <div class="showcase-header">
-            <p class="about-label" id="showcaseLabel">03 — PROJECTS</p>
-            <h2 class="about-heading" id="showcaseHeading">Showcase</h2>
-            <div class="about-line" id="showcaseLine"></div>
-        </div>
-        <div class="showcase-container">
-
-            <a class="photoLink" href="#">
-                <div id="item1" class="item red">
-                    <div class="color red">
-                        <i class="fa fa-camera"></i>
+        <section class="showcase" id="showcase">
+            <header class="showcase-header">
+                <p class="about-label" id="showcaseLabel">03 — PROJECTS</p>
+                <h2 class="about-heading" id="showcaseHeading">Showcase</h2>
+                <div class="about-line" id="showcaseLine"></div>
+            </header>
+            <div class="showcase-container">
+                <a class="photoLink" href="#" aria-label="Photography Project">
+                    <div id="item1" class="item red">
+                        <div class="color red">
+                            <i class="fa fa-camera" aria-hidden="true"></i>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <a class="photoLink" href="#">
-                <div id="item2" class="item">
-                    <div class="color blue">
-                        <i class="fas fa-film"></i>
+                <a class="photoLink" href="#" aria-label="Film Project">
+                    <div id="item2" class="item">
+                        <div class="color blue">
+                            <i class="fas fa-film" aria-hidden="true"></i>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
-            <a class="photoLink" href="#">
-                <div id="item3" class="item">
-                    <div class="color green">
-                        <i class="fas fa-server"></i>
+                <a class="photoLink" href="#" aria-label="Server Project">
+                    <div id="item3" class="item">
+                        <div class="color green">
+                            <i class="fas fa-server" aria-hidden="true"></i>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
+        </section>
+    </main>
 
-        </div>
-    </section>
-
-    
-
-
-
-    <!-- FOOTER -->
     <footer class="footer">
         <p class="footer-text">&copy; 2025 lam — crafted with care</p>
     </footer>
 
-    <div class="image-modal" id="imageModal">
+    <div class="image-modal" id="imageModal" role="dialog" aria-modal="true">
         <div class="modal-content">
-            <span class="close-modal" id="closeModal">&times;</span>
-            <img src="" alt="Preview" id="modalImage">
+            <span class="close-modal" id="closeModal" aria-label="Close modal">&times;</span>
+            <img src="" alt="Enlarged Preview" id="modalImage">
         </div>
     </div>
 
-    <!-- GSAP & Lenis -->
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
@@ -307,108 +225,5 @@
 
     <script src="script.js"></script>
 
-    <script src="cursor.js"></script>
-
-    <script>
-        (function () {
-            const terminal = document.getElementById('terminal');
-            const preloader = document.getElementById('preloader');
-            const body = document.body;
-
-            // Kunci scroll saat preloading
-            body.style.overflow = 'hidden';
-
-            // Data Generator
-            const verbs = ["Loading", "Injecting", "Parsing", "Compiling", "Hashing", "Bundling", "Optimizing", "Verifying", "Fetching"];
-            const nouns = ["module", "chunk", "asset", "script", "style", "node", "token", "byte", "frame"];
-            const exts = [".js", ".css", ".json", ".png", ".woff2", ".html", ".map"];
-
-            function getRandomLog() {
-                const verb = verbs[Math.floor(Math.random() * verbs.length)];
-                const noun = nouns[Math.floor(Math.random() * nouns.length)];
-                const ext = exts[Math.floor(Math.random() * exts.length)];
-                const id = Math.floor(Math.random() * 9999);
-                const time = (Math.random() * 0.05).toFixed(3) + "s";
-                return { msg: `${verb} ${noun}_${id}${ext}`, time: time };
-            }
-
-            // 1. Efek Hujan Data
-            const runDataRain = async () => {
-                // Generate 60 baris (dikurangi sedikit agar tidak terlalu lama loadingnya)
-                for (let i = 0; i < 60; i++) {
-                    const data = getRandomLog();
-                    const line = document.createElement('div');
-                    line.className = 'log-line';
-
-                    const isInfo = Math.random() > 0.8;
-                    const tagClass = isInfo ? "info" : "success";
-                    const tagName = isInfo ? "info" : "ok";
-
-                    line.innerHTML = `
-                        <span class="status-tag ${tagClass}">${tagName}</span>
-                        <span class="log-message">${data.msg}</span>
-                        <span class="log-time">${data.time}</span>
-                    `;
-                    terminal.appendChild(line);
-                    preloader.scrollTop = preloader.scrollHeight;
-
-                    // Kecepatan random sangat cepat
-                    await new Promise(r => setTimeout(r, Math.random() * 15 + 5));
-                }
-            };
-
-            // 2. Sekuens Akhir
-            const runFinalSequence = async () => {
-                const separator = document.createElement('div');
-                separator.style.margin = "20px 0 10px 0";
-                separator.style.borderBottom = "1px dashed #ccc";
-                terminal.appendChild(separator);
-
-                const line = document.createElement('div');
-                line.className = 'log-line';
-                line.innerHTML = `
-                    <span id="gen-tag" class="status-tag process">wait</span>
-                    <span id="gen-msg" class="log-message" style="font-weight:bold; color:#333;">Initializing System</span>
-                `;
-                terminal.appendChild(line);
-                preloader.scrollTop = preloader.scrollHeight;
-
-                const msgElement = document.getElementById('gen-msg');
-                let dots = 0;
-
-                // Animasi loading titik-titik (sekitar 1.5 detik)
-                for (let i = 0; i < 5; i++) {
-                    dots = (dots + 1) % 4;
-                    msgElement.innerText = "Initializing System" + ".".repeat(dots);
-                    await new Promise(r => setTimeout(r, 300));
-                }
-
-                // Selesai
-                document.getElementById('gen-tag').className = "status-tag success";
-                document.getElementById('gen-tag').innerText = "DONE";
-                msgElement.innerText = "System Ready.";
-            };
-
-            // Jalankan
-            const startLoad = async () => {
-                await runDataRain();
-                await runFinalSequence();
-
-                // Slide Up & Fade Out
-                setTimeout(() => {
-                    preloader.classList.add('slide-up');
-
-                    // Kembalikan scroll body
-                    body.style.overflow = '';
-
-                    // Hapus elemen dari DOM agar tidak berat
-                    setTimeout(() => preloader.remove(), 800);
-                }, 500);
-            };
-
-            startLoad();
-        })();
-    </script>
 </body>
-
 </html>
