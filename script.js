@@ -223,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ==========================================
-    // 6. IMAGE MODAL PREVIEW (LIGHTBOX)
+    // 6. IMAGE MODAL PREVIEW & CARD SHUFFLE
     // ==========================================
     const initModal = () => {
         const modal = document.getElementById('imageModal');
@@ -241,10 +241,40 @@ document.addEventListener("DOMContentLoaded", () => {
 
         aboutCardsList.forEach((card) => {
             card.addEventListener('click', function() {
-                if (modalImg && modal) {
-                    modalImg.src = this.src;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden'; 
+                
+                // 1. Cek apakah kartu yang ditekan adalah kartu terdepan (card-1)
+                if (this.classList.contains('card-1')) {
+                    // Buka preview gambar seperti biasa
+                    if (modalImg && modal) {
+                        modalImg.src = this.src;
+                        modal.classList.add('active');
+                        document.body.style.overflow = 'hidden'; 
+                    }
+                } else {
+                    // 2. Jika kartu ke-2 atau ke-3 yang ditekan, tukar posisinya!
+                    const currentCard1 = document.querySelector('.about-card.card-1');
+                    const currentCard2 = document.querySelector('.about-card.card-2');
+                    const currentCard3 = document.querySelector('.about-card.card-3');
+
+                    if (this.classList.contains('card-2')) {
+                        // Tukar posisi kartu 1 dan 2
+                        currentCard1.classList.remove('card-1');
+                        currentCard1.classList.add('card-2');
+                        
+                        this.classList.remove('card-2');
+                        this.classList.add('card-1');
+                        
+                    } else if (this.classList.contains('card-3')) {
+                        // Geser memutar: 3 naik ke 1, 1 turun ke 2, 2 turun ke 3
+                        currentCard1.classList.remove('card-1');
+                        currentCard1.classList.add('card-2');
+                        
+                        currentCard2.classList.remove('card-2');
+                        currentCard2.classList.add('card-3');
+                        
+                        this.classList.remove('card-3');
+                        this.classList.add('card-1');
+                    }
                 }
             });
         });
