@@ -339,12 +339,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const updateParallax = (scrollY) => {
             const heroHeight = window.innerHeight;
+            // Di dalam fungsi updateParallax pada initScrollEngine:
+            const heroCanvas = document.getElementById('hero-3d-canvas');
 
             if (scrollY < heroHeight * 1.2 && heroText) {
                 const progress = scrollY / heroHeight;
 
                 if(heroLines) heroLines.style.transform = `translate3d(0, ${scrollY * 0.25}px, 0) scale(${1 + progress * 0.03})`;
                 if(noiseOverlay) noiseOverlay.style.transform = `translate3d(0, ${scrollY * 0.1}px, 0)`;
+                if(heroCanvas) heroCanvas.style.transform = `translate3d(0, ${scrollY * 0.35}px, 0)`;
                 
                 heroText.style.transform = `translate3d(0, ${scrollY * 0.5}px, 0)`;
                 heroText.style.opacity = Math.max(0, 1 - progress * 1.2);
@@ -704,6 +707,94 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     // ==========================================
+    // 12. THREE.JS 3D MODEL INTEGRATION
+    // ==========================================
+    const initThreeJS = () => {
+        const canvasContainer = document.getElementById('hero-3d-canvas');
+        if (!canvasContainer || typeof THREE === 'undefined') return;
+
+        // 1. Setup Scene, Camera, Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 5; // Jauh-dekatnya kamera
+
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        canvasContainer.appendChild(renderer.domElement);
+
+        // 2. Setup Pencahayaan (Lighting)
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(2, 2, 5);
+        scene.add(directionalLight);
+
+        // 3. Setup Variabel Rotasi
+        let model = null;
+        let targetRotationY = 0;
+        let targetRotationX = 0;
+
+        let baseY = -1.2;
+
+        // 4. Load File .glb
+        const loader = new THREE.GLTFLoader();
+        
+        // GANTI URL INI DENGAN PATH FILE .GLB MILIKMU (misal: 'assets/models/shape.glb')
+        // const glbUrl = 'https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/DamagedHelmet/glTF-Binary/DamagedHelmet.glb';
+        const glbUrl = 'cute_cat_with_strawberries.glb';
+        
+        loader.load(glbUrl, (gltf) => {
+            model = gltf.scene;
+            
+            // Atur skala dan posisi awal model
+            model.scale.set(0.4, 0.4, 0.4); 
+            // UBAH BAGIAN INI:
+            model.position.y = baseY; 
+            
+            scene.add(model); 
+            
+            scene.add(model);
+        }, undefined, (error) => {
+            console.error('Terjadi kesalahan saat memuat model 3D:', error);
+        });
+
+        // 5. Animation Loop
+        const clock = new THREE.Clock();
+        const animate = () => {
+            requestAnimationFrame(animate);
+            
+            if (model) {
+                // Interpolasi halus (lerp) menuju target rotasi dari scroll
+                model.rotation.y += (targetRotationY - model.rotation.y) * 0.05;
+                model.rotation.x += (targetRotationX - model.rotation.x) * 0.05;
+                
+                // Efek mengambang (floating) idle
+                const time = clock.getElapsedTime();
+                model.position.y = baseY + Math.sin(time * 1.5) * 0.1;
+            }
+
+            renderer.render(scene, camera);
+        };
+        animate();
+
+        // 6. Hubungkan scroll dengan target rotasi
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            targetRotationY = scrollY * 0.003; // Kecepatan putar sumbu Y
+            targetRotationX = scrollY * 0.001; // Kecepatan putar sumbu X
+        });
+
+        // 7. Handle Resize Window
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    };
+
+    // ==========================================
     // INITIALIZATION RUNNER
     // ==========================================
     initPreloader();
@@ -717,5 +808,6 @@ document.addEventListener("DOMContentLoaded", () => {
     initAsciiGlitch();
     initAsciiReveal();
     initMagnetic();
+    initThreeJS();
     
 });

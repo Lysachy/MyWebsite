@@ -1278,3 +1278,91 @@ body.dark-mode .cta-btn {
 body.dark-mode .cta-btn:hover span {
     color: #050509;
 }
+
+/* ==========================================
+   TAMBAHAN UNTUK HERO 3D & MINIMALIST TYPOGRAPHY
+   ========================================== */
+   .hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Berada di belakang teks */
+    pointer-events: none; /* Agar klik tembus ke bawahnya */
+    will-change: transform;
+}
+
+.hero-text-layer {
+    position: relative;
+    z-index: 10;
+    text-align: center;
+    will-change: transform;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-title {
+    font-size: clamp(5rem, 12vw, 12rem);
+    font-weight: 700;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+}
+
+.hero-title .fill-text {
+    color: #333333;
+}
+
+.hero-title .outline-text {
+    color: transparent;
+    -webkit-text-stroke: 2px #333333;
+}
+
+/* Penyesuaian Dark Mode untuk Tipografi */
+body.dark-mode .hero-title .fill-text {
+    color: #F5F5F5;
+}
+
+body.dark-mode .hero-title .outline-text {
+    -webkit-text-stroke: 2px #F5F5F5;
+}
+
+/* ==========================================
+   TRANSISI GRADASI HERO KE ABOUT
+   ========================================== */
+
+/* 1. Pastikan section about memiliki posisi relatif dan background yang solid */
+#about {
+    position: relative;
+    background-color: #FFFFF0; /* Warna solid sesuai background light mode */
+    z-index: 10; /* Pastikan berada di atas canvas 3D */
+}
+
+/* 2. Buat gradasi transparan ke solid di bagian atas section about */
+#about::before {
+    content: '';
+    position: absolute;
+    top: -150px; /* Tarik ke atas sejauh 150px (tinggi gradasi) */
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(to bottom, rgba(255, 255, 240, 0) 0%, #FFFFF0 100%);
+    pointer-events: none; /* Agar tidak menghalangi kursor/klik */
+}
+
+/* 3. Penyesuaian warna gradasi dan background untuk Dark Mode */
+body.dark-mode #about {
+    background-color: #050509; /* Warna solid sesuai background dark mode */
+}
+
+body.dark-mode #about::before {
+    background: linear-gradient(to bottom, rgba(5, 5, 9, 0) 0%, #050509 100%);
+}
